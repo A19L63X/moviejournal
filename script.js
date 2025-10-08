@@ -7,7 +7,6 @@ class MovieManager {
         this.supabase = null;
         this.movies = [];
         this.currentRating = 0;
-        this.editingId = null;
         this.isAlphaView = false;
         this.init();
     }
@@ -73,16 +72,7 @@ class MovieManager {
         // Formulario
         document.getElementById('movieForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            if (this.editingId) {
-                this.updateMovie();
-            } else {
-                this.addMovie();
-            }
-        });
-
-        // Cancelar edición
-        document.getElementById('cancelEdit').addEventListener('click', () => {
-            this.cancelEdit();
+            this.addMovie();
         });
 
         // Búsqueda
@@ -165,45 +155,6 @@ class MovieManager {
         }
     }
 
-    async updateMovie() {
-        const movieData = this.getFormData();
-        if (!movieData) return;
-
-        try {
-            if (this.supabase) {
-                // Actualizar en Supabase
-                const { data, error } = await this.supabase
-                    .from('movies')
-                    .update(movieData)
-                    .eq('id', this.editingId)
-                    .select();
-
-                if (error) throw error;
-                
-                // Actualizar localmente
-                const index = this.movies.findIndex(m => m.id === this.editingId);
-                if (index !== -1) {
-                    this.movies[index] = { ...this.movies[index], ...movieData };
-                }
-            } else {
-                // Actualizar en localStorage
-                const index = this.movies.findIndex(m => m.id === this.editingId);
-                if (index !== -1) {
-                    this.movies[index] = { ...this.movies[index], ...movieData };
-                    localStorage.setItem('movies', JSON.stringify(this.movies));
-                }
-            }
-
-            this.renderMovies();
-            this.resetForm();
-            this.showMessage('¡Película actualizada correctamente!', 'success');
-            
-        } catch (error) {
-            console.error('Error actualizando película:', error);
-            this.showMessage('Error al actualizar la película', 'error');
-        }
-    }
-
     async deleteMovie(id) {
         if (!confirm('¿Estás seguro de que quieres eliminar esta película?')) return;
 
@@ -232,48 +183,10 @@ class MovieManager {
         }
     }
 
-    editMovie(movie) {
-        this.editingId = movie.id;
-        
-        // Llenar formulario con datos de la película
-        document.getElementById('editId').value = movie.id;
-        document.getElementById('title').value = movie.title;
-        document.getElementById('director').value = movie.director;
-        document.getElementById('actor').value = movie.actor;
-        document.getElementById('year').value = movie.year;
-        document.getElementById('description').value = movie.description;
-        
-        this.setRating(movie.rating);
-
-        // Mostrar imagen si existe
-        if (movie.poster) {
-            const preview = document.getElementById('imagePreview');
-            preview.innerHTML = `<img src="${movie.poster}" class="preview-image" alt="Vista previa">`;
-        }
-
-        // Cambiar texto del formulario
-        document.getElementById('formTitle').textContent = 'Editar Película';
-        document.getElementById('submitBtn').textContent = 'Actualizar Película';
-        document.getElementById('cancelEdit').style.display = 'block';
-
-        // Scroll al formulario
-        document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    cancelEdit() {
-        this.editingId = null;
-        this.resetForm();
-    }
-
     resetForm() {
         document.getElementById('movieForm').reset();
         this.setRating(0);
         document.getElementById('imagePreview').innerHTML = '';
-        document.getElementById('editId').value = '';
-        
-        document.getElementById('formTitle').textContent = 'Agregar Nueva Película';
-        document.getElementById('submitBtn').textContent = 'Agregar Película';
-        document.getElementById('cancelEdit').style.display = 'none';
     }
 
     getFormData() {
@@ -306,7 +219,7 @@ class MovieManager {
             rating,
             description,
             poster,
-            updated_at: new Date().toISOString()
+            created_at: new Date().toISOString()
         };
     }
 
@@ -394,9 +307,7 @@ class MovieManager {
                 </div>
                 <div class="movie-description">${this.escapeHtml(movie.description)}</div>
                 <div class="movie-actions">
-                    <button class="edit-btn" onclick="movieManager.editMovie(${this.escapeHtml(JSON.stringify(movie))})">
-                        ✏️ Editar
-                    </button>
+                    <a href="detalle.html?id=${movie.id}" class="view-btn">👁️ VER</a>
                     <button class="delete-btn" onclick="movieManager.deleteMovie(${movie.id})">
                         🗑️ Eliminar
                     </button>
