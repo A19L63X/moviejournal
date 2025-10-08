@@ -5,17 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MIS PELÍCULAS FAVORITAS</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Incluir Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>🎬 MIS PELÍCULAS FAVORITAS 🎬</h1>
+            <p class="subtitle">Tu colección en la nube - Accesible desde cualquier dispositivo</p>
         </header>
 
-        <!-- Formulario para agregar películas -->
+        <!-- Formulario para agregar/editar películas -->
         <div class="form-container">
-            <h2>Agregar Nueva Película</h2>
+            <h2 id="formTitle">Agregar Nueva Película</h2>
             <form id="movieForm">
+                <input type="hidden" id="editId" value="">
+                
                 <div class="form-group">
                     <label for="title">Película:</label>
                     <input type="text" id="title" required>
@@ -62,33 +67,33 @@
                     <div id="imagePreview"></div>
                 </div>
 
-                <button type="submit">Agregar Película</button>
+                <div class="form-buttons">
+                    <button type="submit" id="submitBtn">Agregar Película</button>
+                    <button type="button" id="cancelEdit" style="display: none;">Cancelar Edición</button>
+                </div>
             </form>
 
-            <!-- Sección Exportar/Importar -->
-            <div class="data-actions">
-                <h3>🔁 Guardar y Cargar Datos</h3>
-                <div class="action-buttons">
-                    <button type="button" id="exportBtn">📥 Exportar Mis Películas</button>
-                    <button type="button" id="importBtn">📤 Importar Películas</button>
-                    <input type="file" id="importFile" accept=".json" hidden>
-                </div>
-                <p class="help-text">
-                    💡 <strong>Importante:</strong> Exporta tus datos para guardarlos y poder importarlos en otro navegador u ordenador.
-                </p>
+            <!-- Controles adicionales -->
+            <div class="controls">
+                <button type="button" id="sortAlphabetical">🔤 Ver Orden Alfabético</button>
+                <button type="button" id="showAll">🎬 Ver Todas las Películas</button>
             </div>
         </div>
 
         <!-- Lista de películas -->
         <div class="movies-container">
-            <h2>Mi Colección de Películas</h2>
+            <h2 id="moviesTitle">Mi Colección de Películas</h2>
             <div class="search-container">
                 <input type="text" id="search" placeholder="Buscar películas...">
+                <span id="moviesCount">0 películas</span>
             </div>
             <div id="moviesList" class="movies-grid"></div>
         </div>
     </div>
 
+    <script src="script.js"></script>
+</body>
+</html>
     <script src="script.js"></script>
 </body>
 </html>
