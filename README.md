@@ -1,49 +1,42 @@
-# 🎬 Mis Películas Favoritas
+# 🎬 Mis Películas Favoritas - Edición Cloud
 
-Una aplicación web moderna y responsive para gestionar tu colección personal de películas favoritas.
+Una aplicación web moderna para gestionar tu colección de películas favoritas con almacenamiento en la nube.
 
 ## ✨ Características
 
-- ✅ **Agregar películas** con todos los detalles (título, director, actor, año, etc.)
-- ⭐ **Sistema de valoración** con estrellas interactivas (1-5 estrellas)
-- 🖼️ **Subir pósters** mediante arrastrar y soltar o selección de archivos
-- 🔍 **Búsqueda en tiempo real** en tu colección
-- 💾 **Almacenamiento local** en tu navegador
-- 📥 **Exportar datos** a archivo JSON
-- 📤 **Importar datos** desde archivo JSON
-- 🗑️ **Eliminar películas** fácilmente
+- ☁️ **Base de datos en la nube** (Supabase) - Accesible desde cualquier dispositivo
+- ✏️ **Editar películas** existentes con un solo clic
+- 🔤 **Vista de orden alfabético** de todos los títulos
+- ⭐ **Sistema de valoración** con estrellas interactivas
+- 🖼️ **Subir pósters** con arrastrar y soltar
+- 🔍 **Búsqueda en tiempo real**
 - 📱 **Diseño completamente responsive**
+- 💾 **Fallback a localStorage** si no hay conexión
 
-## 🚀 Cómo usar
+## 🚀 Configuración
 
-### Agregar una película:
-1. Completa el formulario con los datos de la película
-2. Haz clic en las estrellas para valorar (1-5 estrellas)
-3. Arrastra una imagen o haz clic para seleccionar un póster
-4. Haz clic en "Agregar Película"
+### 1. Configurar Supabase (Gratis)
 
-### Exportar tus datos:
-1. Haz clic en "📥 Exportar Mis Películas"
-2. Se descargará un archivo JSON con toda tu colección
-3. **Guarda este archivo en un lugar seguro**
+1. Ve a [supabase.com](https://supabase.com) y crea una cuenta
+2. Crea un nuevo proyecto
+3. Ve a **Settings > API** y copia:
+   - **URL**
+   - **anon public key**
 
-### Importar datos:
-1. Haz clic en "📤 Importar Películas"
-2. Selecciona el archivo JSON previamente exportado
-3. Tus películas se cargarán automáticamente
+4. En el SQL Editor, ejecuta:
+```sql
+CREATE TABLE movies (
+  id BIGSERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  director TEXT NOT NULL,
+  actor TEXT NOT NULL,
+  year INTEGER NOT NULL,
+  rating INTEGER NOT NULL,
+  description TEXT,
+  poster TEXT,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
 
-## 💡 Importante
-
-- Los datos se guardan **localmente en tu navegador**
-- Para **mantener tus datos entre dispositivos**, exporta regularmente tu colección
-- El archivo JSON contiene todas tus películas e imágenes (en formato base64)
-
-## 🛠️ Tecnologías utilizadas
-
-- HTML5
-- CSS3 (Grid, Flexbox, Gradientes, Animaciones)
-- JavaScript (ES6+)
-- Local Storage API
-- File API & Drag and Drop API
-
-## 📁 Estructura de archivos
+ALTER TABLE movies ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow all operations" ON movies FOR ALL USING (true);
