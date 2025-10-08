@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Película - MIS PELÍCULAS FAVORITAS</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 DETALLE DE PELÍCULA 🎬</h1>
+            <a href="index.html" class="back-button">← Volver al Listado</a>
+        </header>
+
+        <div id="loading" class="loading">
+            <p>Cargando información de la película...</p>
+        </div>
+
+        <div id="movieDetail" class="movie-detail-container" style="display: none;">
+            <!-- Vista de solo lectura -->
+            <div id="readView" class="movie-detail-view">
+                <div class="movie-header">
+                    <div class="poster-section">
+                        <img id="detailPoster" class="detail-poster" src="" alt="Póster de la película">
+                    </div>
+                    <div class="info-section">
+                        <h2 id="detailTitle" class="detail-title"></h2>
+                        <div class="detail-rating" id="detailRating"></div>
+                        <div class="detail-meta">
+                            <span id="detailYear" class="year-badge"></span>
+                            <span id="detailDirector" class="director-info"></span>
+                        </div>
+                        <p class="actor-info"><strong>Protagonista:</strong> <span id="detailActor"></span></p>
+                    </div>
+                </div>
+
+                <div class="description-section">
+                    <h3>Sinopsis</h3>
+                    <p id="detailDescription" class="detail-description"></p>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="editButton" class="edit-btn">✏️ Editar Película</button>
+                    <button onclick="window.history.back()" class="back-btn">← Volver</button>
+                </div>
+            </div>
+
+            <!-- Vista de edición -->
+            <div id="editView" class="movie-edit-view" style="display: none;">
+                <h2>✏️ Editar Película</h2>
+                
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editTitle">Película:</label>
+                            <input type="text" id="editTitle" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="editYear">Año:</label>
+                            <input type="number" id="editYear" min="1900" max="2030" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editDirector">Director:</label>
+                        <input type="text" id="editDirector" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editActor">Actor/Actriz Principal:</label>
+                        <input type="text" id="editActor" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Valoración:</label>
+                        <div class="stars" id="editStars">
+                            <span class="star" data-value="1">☆</span>
+                            <span class="star" data-value="2">☆</span>
+                            <span class="star" data-value="3">☆</span>
+                            <span class="star" data-value="4">☆</span>
+                            <span class="star" data-value="5">☆</span>
+                        </div>
+                        <input type="hidden" id="editRating" value="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editDescription">Descripción:</label>
+                        <textarea id="editDescription" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editPoster">Póster de la Película:</label>
+                        <div class="drop-zone" id="editDropZone">
+                            <span>Arrastra una nueva imagen aquí o haz clic para seleccionar</span>
+                            <input type="file" id="editPoster" accept="image/*" hidden>
+                        </div>
+                        <div id="editImagePreview"></div>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="submit" class="save-btn">💾 Guardar Cambios</button>
+                        <button type="button" id="cancelEdit" class="cancel-btn">❌ Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="errorMessage" class="error-container" style="display: none;">
+            <h2>Película no encontrada</h2>
+            <p>La película que buscas no existe o ha sido eliminada.</p>
+            <a href="index.html" class="back-button">Volver al listado principal</a>
+        </div>
+    </div>
+
+    <script src="detalle.js"></script>
+</body>
+</html>
