@@ -35,6 +35,25 @@ header h1 {
     font-weight: 300;
 }
 
+/* Botón volver */
+.back-button {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    margin-top: 15px;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Estilos del formulario (mantenidos) */
 .form-container {
     background: white;
     padding: 30px;
@@ -51,6 +70,12 @@ header h1 {
 
 .form-group {
     margin-bottom: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
 }
 
 label {
@@ -113,7 +138,7 @@ textarea:focus {
     border-color: #2196f3;
 }
 
-#imagePreview {
+#imagePreview, #editImagePreview {
     margin-top: 10px;
 }
 
@@ -122,11 +147,6 @@ textarea:focus {
     max-height: 200px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.form-buttons {
-    display: flex;
-    gap: 10px;
 }
 
 button {
@@ -138,7 +158,7 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: transform 0.2s;
-    flex: 1;
+    width: 100%;
 }
 
 button:hover {
@@ -160,14 +180,7 @@ button:hover {
     background: #1976d2;
 }
 
-#cancelEdit {
-    background: #6c757d;
-}
-
-#cancelEdit:hover {
-    background: #5a6268;
-}
-
+/* Lista de películas */
 .movies-container {
     background: white;
     padding: 30px;
@@ -251,6 +264,10 @@ button:hover {
     font-size: 0.85em;
     margin-top: 10px;
     line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .movie-actions {
@@ -259,19 +276,21 @@ button:hover {
     margin-top: 15px;
 }
 
-.edit-btn {
-    background: #ffc107;
-    color: black;
+.view-btn {
+    background: #2196f3;
+    color: white;
     padding: 8px 15px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
     flex: 1;
     font-size: 14px;
+    text-decoration: none;
+    text-align: center;
 }
 
-.edit-btn:hover {
-    background: #e0a800;
+.view-btn:hover {
+    background: #1976f3;
     transform: translateY(-1px);
 }
 
@@ -291,6 +310,164 @@ button:hover {
     transform: translateY(-1px);
 }
 
+/* Página de detalle */
+.movie-detail-container {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.movie-header {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.detail-poster {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.detail-title {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.detail-rating {
+    font-size: 1.8em;
+    color: #ffd700;
+    margin-bottom: 15px;
+}
+
+.detail-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.year-badge {
+    background: #667eea;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.director-info {
+    font-size: 1.1em;
+    color: #666;
+}
+
+.actor-info {
+    font-size: 1.1em;
+    color: #555;
+}
+
+.description-section {
+    margin-bottom: 30px;
+}
+
+.description-section h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.detail-description {
+    font-size: 1.1em;
+    line-height: 1.7;
+    color: #555;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.edit-btn {
+    background: #ffc107;
+    color: black;
+    flex: 2;
+}
+
+.save-btn {
+    background: #28a745;
+    flex: 2;
+}
+
+.cancel-btn {
+    background: #6c757d;
+    flex: 1;
+}
+
+.back-btn {
+    background: #6c757d;
+    flex: 1;
+}
+
+/* Vista de edición */
+.movie-edit-view {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+}
+
+.movie-edit-view h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Estados */
+.loading, .error-container {
+    text-align: center;
+    padding: 60px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.error-container h2 {
+    color: #dc3545;
+    margin-bottom: 15px;
+}
+
+.no-poster {
+    width: 100%;
+    height: 200px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: #666;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
 .alpha-list {
     grid-column: 1 / -1;
 }
@@ -302,7 +479,7 @@ button:hover {
     border-radius: 8px;
     border-left: 4px solid #667eea;
     display: flex;
-    justify-content: between;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -320,72 +497,7 @@ button:hover {
     font-size: 0.8em;
 }
 
-.no-poster {
-    width: 100%;
-    height: 200px;
-    background: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    color: #666;
-    font-size: 1.2em;
-    margin-bottom: 10px;
-}
-
-.loading {
-    text-align: center;
-    padding: 40px;
-    color: #666;
-    grid-column: 1 / -1;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .movies-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    header h1 {
-        font-size: 2em;
-    }
-    
-    .form-buttons, .controls {
-        flex-direction: column;
-    }
-    
-    .search-container {
-        flex-direction: column;
-    }
-    
-    #moviesCount {
-        width: 100%;
-    }
-    
-    .movie-actions {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 10px;
-    }
-    
-    header h1 {
-        font-size: 1.8em;
-    }
-    
-    .form-container, .movies-container {
-        padding: 20px;
-    }
-    
-    .drop-zone {
-        padding: 20px;
-    }
-}
-
-/* Animaciones para mensajes */
+/* Mensajes */
 @keyframes slideIn {
     from { transform: translateX(100%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
@@ -413,4 +525,61 @@ button:hover {
 .message.success { background: #28a745; }
 .message.error { background: #dc3545; }
 .message.info { background: #17a2b8; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .movies-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    header h1 {
+        font-size: 2em;
+    }
+    
+    .movie-header {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .detail-title {
+        font-size: 2em;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons, .form-buttons {
+        flex-direction: column;
+    }
+    
+    .search-container {
+        flex-direction: column;
+    }
+    
+    #moviesCount {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    header h1 {
+        font-size: 1.8em;
+    }
+    
+    .form-container, .movies-container, .movie-detail-container {
+        padding: 20px;
+    }
+    
+    .drop-zone {
+        padding: 20px;
+    }
+    
+    .detail-title {
+        font-size: 1.6em;
+    }
 }
