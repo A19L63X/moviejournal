@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MIS PELÍCULAS FAVORITAS</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Incluir Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -15,12 +14,10 @@
             <p class="subtitle">Tu colección en la nube - Accesible desde cualquier dispositivo</p>
         </header>
 
-        <!-- Formulario para agregar/editar películas -->
+        <!-- Formulario para agregar películas -->
         <div class="form-container">
-            <h2 id="formTitle">Agregar Nueva Película</h2>
+            <h2>Agregar Nueva Película</h2>
             <form id="movieForm">
-                <input type="hidden" id="editId" value="">
-                
                 <div class="form-group">
                     <label for="title">Película:</label>
                     <input type="text" id="title" required>
@@ -67,10 +64,7 @@
                     <div id="imagePreview"></div>
                 </div>
 
-                <div class="form-buttons">
-                    <button type="submit" id="submitBtn">Agregar Película</button>
-                    <button type="button" id="cancelEdit" style="display: none;">Cancelar Edición</button>
-                </div>
+                <button type="submit">Agregar Película</button>
             </form>
 
             <!-- Controles adicionales -->
@@ -91,9 +85,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
     <script src="script.js"></script>
 </body>
 </html>
