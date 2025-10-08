@@ -1,13 +1,37 @@
+// Configuración de Supabase - REEMPLAZA con tus credenciales
+const SUPABASE_URL = 'https://wszpszjpfasqfutjskbl.supabase.co'; // Tu URL de Supabase
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndzenBzempwZmFzcWZ1dGpza2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5Mzk1ODIsImV4cCI6MjA3NTUxNTU4Mn0.tc3U6nj3ZKlhz5I46DH6rTJcKrNR5VxPvjLGVlVLBVg'; // Tu clave pública anónima
+
 class MovieManager {
     constructor() {
-        this.movies = JSON.parse(localStorage.getItem('movies')) || [];
+        this.supabase = null;
+        this.movies = [];
         this.currentRating = 0;
+        this.editingId = null;
+        this.isAlphaView = false;
         this.init();
     }
 
-    init() {
+    async init() {
+        try {
+            // Inicializar Supabase
+            this.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            
+            // Verificar conexión
+            const { data, error } = await this.supabase.from('movies').select('count');
+            
+            if (error) {
+                console.warn('Error conectando a Supabase, usando localStorage:', error);
+                this.showMessage('Modo offline activado. Los datos se guardarán localmente.', 'info');
+            } else {
+                console.log('Conectado a Supabase correctamente');
+            }
+        } catch (error) {
+            console.warn('Supabase no disponible, usando localStorage:', error);
+        }
+
         this.setupEventListeners();
-        this.renderMovies();
+        await this.loadMovies();
     }
 
     setupEventListeners() {
@@ -49,7 +73,16 @@ class MovieManager {
         // Formulario
         document.getElementById('movieForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            this.addMovie();
+            if (this.editingId) {
+                this.updateMovie();
+            } else {
+                this.addMovie();
+            }
+        });
+
+        // Cancelar edición
+        document.getElementById('cancelEdit').addEventListener('click', () => {
+            this.cancelEdit();
         });
 
         // Búsqueda
@@ -57,15 +90,14 @@ class MovieManager {
             this.renderMovies(e.target.value);
         });
 
-        // Exportar/Importar
-        document.getElementById('exportBtn').addEventListener('click', () => this.exportData());
-        document.getElementById('importBtn').addEventListener('click', () => {
-            document.getElementById('importFile').click();
+        // Orden alfabético
+        document.getElementById('sortAlphabetical').addEventListener('click', () => {
+            this.toggleAlphaView();
         });
-        document.getElementById('importFile').addEventListener('change', (e) => {
-            if (e.target.files[0]) {
-                this.importData(e.target.files[0]);
-            }
+
+        // Ver todas
+        document.getElementById('showAll').addEventListener('click', () => {
+            this.showAllMovies();
         });
     }
 
@@ -98,24 +130,175 @@ class MovieManager {
         reader.readAsDataURL(file);
     }
 
-    addMovie() {
-        const title = document.getElementById('title').value;
-        const director = document.getElementById('director').value;
-        const actor = document.getElementById('actor').value;
+    async addMovie() {
+        const movieData = this.getFormData();
+        if (!movieData) return;
+
+        try {
+            let result;
+
+            if (this.supabase) {
+                // Guardar en Supabase
+                const { data, error } = await this.supabase
+                    .from('movies')
+                    .insert([movieData])
+                    .select();
+
+                if (error) throw error;
+                result = data[0];
+            } else {
+                // Fallback a localStorage
+                movieData.id = Date.now();
+                movieData.created_at = new Date().toISOString();
+                result = movieData;
+                this.saveToLocalStorage(movieData);
+            }
+
+            this.movies.push(result);
+            this.renderMovies();
+            this.resetForm();
+            this.showMessage('¡Película agregada correctamente!', 'success');
+            
+        } catch (error) {
+            console.error('Error agregando película:', error);
+            this.showMessage('Error al agregar la película', 'error');
+        }
+    }
+
+    async updateMovie() {
+        const movieData = this.getFormData();
+        if (!movieData) return;
+
+        try {
+            if (this.supabase) {
+                // Actualizar en Supabase
+                const { data, error } = await this.supabase
+                    .from('movies')
+                    .update(movieData)
+                    .eq('id', this.editingId)
+                    .select();
+
+                if (error) throw error;
+                
+                // Actualizar localmente
+                const index = this.movies.findIndex(m => m.id === this.editingId);
+                if (index !== -1) {
+                    this.movies[index] = { ...this.movies[index], ...movieData };
+                }
+            } else {
+                // Actualizar en localStorage
+                const index = this.movies.findIndex(m => m.id === this.editingId);
+                if (index !== -1) {
+                    this.movies[index] = { ...this.movies[index], ...movieData };
+                    localStorage.setItem('movies', JSON.stringify(this.movies));
+                }
+            }
+
+            this.renderMovies();
+            this.resetForm();
+            this.showMessage('¡Película actualizada correctamente!', 'success');
+            
+        } catch (error) {
+            console.error('Error actualizando película:', error);
+            this.showMessage('Error al actualizar la película', 'error');
+        }
+    }
+
+    async deleteMovie(id) {
+        if (!confirm('¿Estás seguro de que quieres eliminar esta película?')) return;
+
+        try {
+            if (this.supabase) {
+                const { error } = await this.supabase
+                    .from('movies')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+            }
+
+            this.movies = this.movies.filter(movie => movie.id !== id);
+            
+            if (!this.supabase) {
+                localStorage.setItem('movies', JSON.stringify(this.movies));
+            }
+
+            this.renderMovies();
+            this.showMessage('Película eliminada correctamente', 'info');
+            
+        } catch (error) {
+            console.error('Error eliminando película:', error);
+            this.showMessage('Error al eliminar la película', 'error');
+        }
+    }
+
+    editMovie(movie) {
+        this.editingId = movie.id;
+        
+        // Llenar formulario con datos de la película
+        document.getElementById('editId').value = movie.id;
+        document.getElementById('title').value = movie.title;
+        document.getElementById('director').value = movie.director;
+        document.getElementById('actor').value = movie.actor;
+        document.getElementById('year').value = movie.year;
+        document.getElementById('description').value = movie.description;
+        
+        this.setRating(movie.rating);
+
+        // Mostrar imagen si existe
+        if (movie.poster) {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = `<img src="${movie.poster}" class="preview-image" alt="Vista previa">`;
+        }
+
+        // Cambiar texto del formulario
+        document.getElementById('formTitle').textContent = 'Editar Película';
+        document.getElementById('submitBtn').textContent = 'Actualizar Película';
+        document.getElementById('cancelEdit').style.display = 'block';
+
+        // Scroll al formulario
+        document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    cancelEdit() {
+        this.editingId = null;
+        this.resetForm();
+    }
+
+    resetForm() {
+        document.getElementById('movieForm').reset();
+        this.setRating(0);
+        document.getElementById('imagePreview').innerHTML = '';
+        document.getElementById('editId').value = '';
+        
+        document.getElementById('formTitle').textContent = 'Agregar Nueva Película';
+        document.getElementById('submitBtn').textContent = 'Agregar Película';
+        document.getElementById('cancelEdit').style.display = 'none';
+    }
+
+    getFormData() {
+        const title = document.getElementById('title').value.trim();
+        const director = document.getElementById('director').value.trim();
+        const actor = document.getElementById('actor').value.trim();
         const year = document.getElementById('year').value;
         const rating = this.currentRating;
-        const description = document.getElementById('description').value;
+        const description = document.getElementById('description').value.trim();
         
         const preview = document.querySelector('.preview-image');
         const poster = preview ? preview.src : '';
 
-        if (rating === 0) {
-            alert('Por favor, selecciona una valoración con estrellas');
-            return;
+        // Validaciones
+        if (!title || !director || !actor || !year) {
+            this.showMessage('Por favor, completa todos los campos obligatorios', 'error');
+            return null;
         }
 
-        const movie = {
-            id: Date.now(),
+        if (rating === 0) {
+            this.showMessage('Por favor, selecciona una valoración con estrellas', 'error');
+            return null;
+        }
+
+        return {
             title,
             director,
             actor,
@@ -123,41 +306,54 @@ class MovieManager {
             rating,
             description,
             poster,
-            dateAdded: new Date().toISOString()
+            updated_at: new Date().toISOString()
         };
-
-        this.movies.push(movie);
-        this.saveMovies();
-        this.renderMovies();
-        this.resetForm();
-        
-        // Mostrar mensaje de éxito
-        this.showMessage('¡Película agregada correctamente!', 'success');
     }
 
-    resetForm() {
-        document.getElementById('movieForm').reset();
-        this.setRating(0);
-        document.getElementById('imagePreview').innerHTML = '';
-    }
+    async loadMovies() {
+        try {
+            let movies = [];
 
-    deleteMovie(id) {
-        if (confirm('¿Estás seguro de que quieres eliminar esta película?')) {
-            this.movies = this.movies.filter(movie => movie.id !== id);
-            this.saveMovies();
+            if (this.supabase) {
+                // Cargar desde Supabase
+                const { data, error } = await this.supabase
+                    .from('movies')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                movies = data || [];
+            } else {
+                // Cargar desde localStorage
+                const localData = localStorage.getItem('movies');
+                movies = localData ? JSON.parse(localData) : [];
+            }
+
+            this.movies = movies;
             this.renderMovies();
-            this.showMessage('Película eliminada correctamente', 'info');
+            
+        } catch (error) {
+            console.error('Error cargando películas:', error);
+            // Fallback a localStorage
+            const localData = localStorage.getItem('movies');
+            this.movies = localData ? JSON.parse(localData) : [];
+            this.renderMovies();
         }
     }
 
-    saveMovies() {
-        localStorage.setItem('movies', JSON.stringify(this.movies));
+    saveToLocalStorage(movie) {
+        const movies = JSON.parse(localStorage.getItem('movies')) || [];
+        movies.push(movie);
+        localStorage.setItem('movies', JSON.stringify(movies));
     }
 
     renderMovies(searchTerm = '') {
         const moviesList = document.getElementById('moviesList');
+        const moviesCount = document.getElementById('moviesCount');
+        
         let filteredMovies = this.movies;
 
+        // Aplicar búsqueda
         if (searchTerm) {
             filteredMovies = this.movies.filter(movie => 
                 movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -166,135 +362,123 @@ class MovieManager {
             );
         }
 
+        // Actualizar contador
+        moviesCount.textContent = `${filteredMovies.length} película${filteredMovies.length !== 1 ? 's' : ''}`;
+
+        if (this.isAlphaView) {
+            this.renderAlphaView(filteredMovies);
+            return;
+        }
+
         if (filteredMovies.length === 0) {
-            moviesList.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1 / -1; padding: 40px;">No se encontraron películas. ¡Agrega tu primera película!</p>';
+            moviesList.innerHTML = `
+                <div class="loading" style="grid-column: 1 / -1;">
+                    <p>${searchTerm ? 'No se encontraron películas que coincidan con tu búsqueda.' : 'No hay películas en tu colección. ¡Agrega la primera!'}</p>
+                </div>
+            `;
             return;
         }
 
         moviesList.innerHTML = filteredMovies.map(movie => `
             <div class="movie-card">
-                ${movie.poster ? `<img src="${movie.poster}" class="movie-poster" alt="${movie.title}">` : '<div class="no-poster">🎬 Sin póster</div>'}
-                <div class="movie-title">${movie.title} (${movie.year})</div>
-                <div class="movie-info"><strong>Director:</strong> ${movie.director}</div>
-                <div class="movie-info"><strong>Protagonista:</strong> ${movie.actor}</div>
+                ${movie.poster ? 
+                    `<img src="${movie.poster}" class="movie-poster" alt="${movie.title}" onerror="this.style.display='none'">` : 
+                    '<div class="no-poster">🎬 Sin póster</div>'
+                }
+                <div class="movie-title">${this.escapeHtml(movie.title)} (${movie.year})</div>
+                <div class="movie-info"><strong>Director:</strong> ${this.escapeHtml(movie.director)}</div>
+                <div class="movie-info"><strong>Protagonista:</strong> ${this.escapeHtml(movie.actor)}</div>
                 <div class="movie-info">
                     <strong>Valoración:</strong> 
                     ${'★'.repeat(movie.rating)}${'☆'.repeat(5 - movie.rating)}
                 </div>
-                <div class="movie-description">${movie.description}</div>
-                <button class="delete-btn" onclick="movieManager.deleteMovie(${movie.id})">
-                    🗑️ Eliminar
-                </button>
+                <div class="movie-description">${this.escapeHtml(movie.description)}</div>
+                <div class="movie-actions">
+                    <button class="edit-btn" onclick="movieManager.editMovie(${this.escapeHtml(JSON.stringify(movie))})">
+                        ✏️ Editar
+                    </button>
+                    <button class="delete-btn" onclick="movieManager.deleteMovie(${movie.id})">
+                        🗑️ Eliminar
+                    </button>
+                </div>
             </div>
         `).join('');
     }
 
-    // Función para exportar datos
-    exportData() {
-        if (this.movies.length === 0) {
-            alert('No hay películas para exportar.');
+    renderAlphaView(movies) {
+        const moviesList = document.getElementById('moviesList');
+        
+        // Ordenar alfabéticamente
+        const sortedMovies = [...movies].sort((a, b) => 
+            a.title.localeCompare(b.title, 'es', { sensitivity: 'base' })
+        );
+
+        if (sortedMovies.length === 0) {
+            moviesList.innerHTML = '<div class="loading">No hay películas para mostrar</div>';
             return;
         }
 
-        const dataStr = JSON.stringify(this.movies, null, 2);
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        
-        // Crear enlace de descarga
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(dataBlob);
-        link.download = `mis-peliculas-${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        this.showMessage('¡Datos exportados correctamente!', 'success');
-    }
-
-    // Función para importar datos
-    importData(file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            try {
-                const importedMovies = JSON.parse(e.target.result);
-                
-                if (!Array.isArray(importedMovies)) {
-                    throw new Error('Formato de archivo inválido');
-                }
-
-                if (confirm(`¿Quieres agregar ${importedMovies.length} películas a tu colección?`)) {
-                    // Combinar las películas existentes con las importadas
-                    this.movies = [...this.movies, ...importedMovies];
-                    this.saveMovies();
-                    this.renderMovies();
-                    this.showMessage(`¡${importedMovies.length} películas importadas correctamente!`, 'success');
-                }
-            } catch (error) {
-                alert('Error al importar el archivo. Verifica que sea un archivo JSON válido exportado desde esta aplicación.');
-                console.error('Error importing data:', error);
-            }
-        };
-        reader.readAsText(file);
-    }
-
-    // Función para mostrar mensajes
-    showMessage(message, type = 'info') {
-        // Crear elemento de mensaje
-        const messageEl = document.createElement('div');
-        messageEl.textContent = message;
-        messageEl.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 8px;
-            color: white;
-            font-weight: bold;
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
-            max-width: 300px;
-            background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8'};
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        moviesList.innerHTML = `
+            <div class="alpha-list">
+                ${sortedMovies.map(movie => `
+                    <div class="alpha-item">
+                        <span class="alpha-title">${this.escapeHtml(movie.title)}</span>
+                        <span class="alpha-year">${movie.year}</span>
+                    </div>
+                `).join('')}
+            </div>
         `;
+    }
+
+    toggleAlphaView() {
+        this.isAlphaView = !this.isAlphaView;
+        
+        if (this.isAlphaView) {
+            document.getElementById('moviesTitle').textContent = 'Películas en Orden Alfabético';
+            document.getElementById('sortAlphabetical').textContent = '🎬 Ver Vista Normal';
+            this.renderMovies(document.getElementById('search').value);
+        } else {
+            this.showAllMovies();
+        }
+    }
+
+    showAllMovies() {
+        this.isAlphaView = false;
+        document.getElementById('moviesTitle').textContent = 'Mi Colección de Películas';
+        document.getElementById('sortAlphabetical').textContent = '🔤 Ver Orden Alfabético';
+        this.renderMovies(document.getElementById('search').value);
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    showMessage(message, type = 'info') {
+        // Remover mensajes existentes
+        const existingMessages = document.querySelectorAll('.message');
+        existingMessages.forEach(msg => msg.remove());
+
+        const messageEl = document.createElement('div');
+        messageEl.className = `message ${type}`;
+        messageEl.textContent = message;
         
         document.body.appendChild(messageEl);
-        
-        // Remover después de 3 segundos
+
+        // Auto-remover después de 4 segundos
         setTimeout(() => {
-            messageEl.style.animation = 'slideOut 0.3s ease';
-            setTimeout(() => {
-                if (messageEl.parentNode) {
-                    messageEl.parentNode.removeChild(messageEl);
-                }
-            }, 300);
-        }, 3000);
+            if (messageEl.parentNode) {
+                messageEl.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (messageEl.parentNode) {
+                        messageEl.parentNode.removeChild(messageEl);
+                    }
+                }, 300);
+            }
+        }, 4000);
     }
 }
-
-// Añadir estilos para las animaciones de mensajes
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOut {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-    .no-poster {
-        width: 100%;
-        height: 200px;
-        background: #f0f0f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 8px;
-        color: #666;
-        font-size: 1.2em;
-        margin-bottom: 10px;
-    }
-`;
-document.head.appendChild(style);
 
 // Inicializar la aplicación cuando se carga la página
 document.addEventListener('DOMContentLoaded', () => {
