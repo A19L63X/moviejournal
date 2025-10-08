@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIS PELÍCULAS FAVORITAS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 MIS PELÍCULAS FAVORITAS 🎬</h1>
+        </header>
+
+        <!-- Formulario para agregar películas -->
+        <div class="form-container">
+            <h2>Agregar Nueva Película</h2>
+            <form id="movieForm">
+                <div class="form-group">
+                    <label for="title">Película:</label>
+                    <input type="text" id="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="director">Director:</label>
+                    <input type="text" id="director" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="actor">Actor/Actriz Principal:</label>
+                    <input type="text" id="actor" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Año de Estreno:</label>
+                    <input type="number" id="year" min="1900" max="2030" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Valoración:</label>
+                    <div class="stars" id="stars">
+                        <span class="star" data-value="1">☆</span>
+                        <span class="star" data-value="2">☆</span>
+                        <span class="star" data-value="3">☆</span>
+                        <span class="star" data-value="4">☆</span>
+                        <span class="star" data-value="5">☆</span>
+                    </div>
+                    <input type="hidden" id="rating" value="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Descripción:</label>
+                    <textarea id="description" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="poster">Póster de la Película:</label>
+                    <div class="drop-zone" id="dropZone">
+                        <span>Arrastra la imagen aquí o haz clic para seleccionar</span>
+                        <input type="file" id="poster" accept="image/*" hidden>
+                    </div>
+                    <div id="imagePreview"></div>
+                </div>
+
+                <button type="submit">Agregar Película</button>
+            </form>
+
+            <!-- Sección Exportar/Importar -->
+            <div class="data-actions">
+                <h3>🔁 Guardar y Cargar Datos</h3>
+                <div class="action-buttons">
+                    <button type="button" id="exportBtn">📥 Exportar Mis Películas</button>
+                    <button type="button" id="importBtn">📤 Importar Películas</button>
+                    <input type="file" id="importFile" accept=".json" hidden>
+                </div>
+                <p class="help-text">
+                    💡 <strong>Importante:</strong> Exporta tus datos para guardarlos y poder importarlos en otro navegador u ordenador.
+                </p>
+            </div>
+        </div>
+
+        <!-- Lista de películas -->
+        <div class="movies-container">
+            <h2>Mi Colección de Películas</h2>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Buscar películas...">
+            </div>
+            <div id="moviesList" class="movies-grid"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
