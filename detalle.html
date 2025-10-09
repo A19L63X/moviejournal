@@ -27,12 +27,41 @@
                     </div>
                     <div class="info-section">
                         <h2 id="detailTitle" class="detail-title"></h2>
-                        <div class="detail-rating" id="detailRating"></div>
+                        
+                        <!-- Rating con número -->
+                        <div class="detail-rating-container">
+                            <div class="detail-rating" id="detailRating"></div>
+                            <span class="rating-number" id="detailRatingNumber"></span>
+                        </div>
+                        
                         <div class="detail-meta">
                             <span id="detailYear" class="year-badge"></span>
-                            <span id="detailDirector" class="director-info"></span>
+                            <span id="detailDuration" class="duration-badge"></span>
+                            <span id="detailGenre" class="genre-badge"></span>
                         </div>
-                        <p class="actor-info"><strong>Protagonista:</strong> <span id="detailActor"></span></p>
+                        
+                        <div class="detail-info-grid">
+                            <div class="info-item">
+                                <strong>Director:</strong>
+                                <span id="detailDirector"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Protagonista:</strong>
+                                <span id="detailActor"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>País:</strong>
+                                <span id="detailCountry"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Idioma:</strong>
+                                <span id="detailLanguage"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Presupuesto:</strong>
+                                <span id="detailBudget"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -56,40 +85,92 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="editTitle">Película:</label>
+                            <label for="editTitle">Película:*</label>
                             <input type="text" id="editTitle" required>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="editYear">Año:</label>
+                            <label for="editYear">Año:*</label>
                             <input type="number" id="editYear" min="1900" max="2030" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="editDirector">Director:</label>
+                        <label for="editDirector">Director:*</label>
                         <input type="text" id="editDirector" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="editActor">Actor/Actriz Principal:</label>
+                        <label for="editActor">Actor/Actriz Principal:*</label>
                         <input type="text" id="editActor" required>
                     </div>
 
+                    <!-- NUEVOS CAMPOS EN EDICIÓN -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editGenre">Género:*</label>
+                            <select id="editGenre" required>
+                                <option value="">Selecciona un género</option>
+                                <option value="Acción">Acción</option>
+                                <option value="Aventura">Aventura</option>
+                                <option value="Comedia">Comedia</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Ciencia Ficción">Ciencia Ficción</option>
+                                <option value="Fantasía">Fantasía</option>
+                                <option value="Terror">Terror</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Suspense">Suspense</option>
+                                <option value="Animación">Animación</option>
+                                <option value="Documental">Documental</option>
+                                <option value="Musical">Musical</option>
+                                <option value="Bélico">Bélico</option>
+                                <option value="Western">Western</option>
+                                <option value="Biográfico">Biográfico</option>
+                                <option value="Histórico">Histórico</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDuration">Duración (min):*</label>
+                            <input type="number" id="editDuration" min="1" max="500" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCountry">País:*</label>
+                            <input type="text" id="editCountry" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editLanguage">Idioma:*</label>
+                            <input type="text" id="editLanguage" required>
+                        </div>
+                    </div>
+
                     <div class="form-group">
-                        <label>Valoración:</label>
-                        <div class="stars" id="editStars">
-                            <span class="star" data-value="1">☆</span>
-                            <span class="star" data-value="2">☆</span>
-                            <span class="star" data-value="3">☆</span>
-                            <span class="star" data-value="4">☆</span>
-                            <span class="star" data-value="5">☆</span>
+                        <label for="editBudget">Presupuesto (opcional):</label>
+                        <input type="text" id="editBudget" placeholder="Ej: 50 millones USD">
+                    </div>
+
+                    <!-- Rating con número en edición -->
+                    <div class="form-group">
+                        <label>Valoración:*</label>
+                        <div class="rating-container">
+                            <div class="stars" id="editStars">
+                                <span class="star" data-value="1">☆</span>
+                                <span class="star" data-value="2">☆</span>
+                                <span class="star" data-value="3">☆</span>
+                                <span class="star" data-value="4">☆</span>
+                                <span class="star" data-value="5">☆</span>
+                            </div>
+                            <div class="rating-display">
+                                <span id="editRatingValue">0/5</span>
+                            </div>
                         </div>
                         <input type="hidden" id="editRating" value="0">
                     </div>
 
                     <div class="form-group">
-                        <label for="editDescription">Descripción:</label>
+                        <label for="editDescription">Descripción:*</label>
                         <textarea id="editDescription" rows="4" required></textarea>
                     </div>
 
