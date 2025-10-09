@@ -3,20 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIS PELÍCULAS FAVORITAS</title>
+    <title>My Movies Diaries</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🎬 MIS PELÍCULAS FAVORITAS 🎬</h1>
+            <h1>🎬 My Movies Diaries 🎬</h1>
             <p class="subtitle">Tu colección en la nube - Accesible desde cualquier dispositivo</p>
         </header>
 
         <!-- Formulario para agregar películas -->
         <div class="form-container">
             <h2>Agregar Nueva Película</h2>
+            
+            <!-- Enlaces de búsqueda para ayudar a llenar el formulario -->
+            <div class="search-help">
+                <h3>¿Necesitas información? Busca en:</h3>
+                <div class="search-links">
+                    <a id="imdbSearch" href="#" target="_blank" class="search-link imdb">
+                        <span>🔍 Buscar en IMDB</span>
+                    </a>
+                    <a id="tmdbSearch" href="#" target="_blank" class="search-link tmdb">
+                        <span>🔍 Buscar en TMDB</span>
+                    </a>
+                </div>
+            </div>
+
             <form id="movieForm">
                 <!-- Campos principales -->
                 <div class="form-row">
@@ -36,8 +50,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="actor">Actor/Actriz Principal:*</label>
-                    <input type="text" id="actor" required>
+                    <label for="cast">Reparto:*</label>
+                    <input type="text" id="cast" required placeholder="Lista de actores principales separados por comas">
                 </div>
 
                 <!-- Campos adicionales -->
@@ -87,7 +101,6 @@
                     <input type="text" id="budget" placeholder="Ej: 50 millones USD">
                 </div>
 
-                <!-- NUEVO: Campos adicionales -->
                 <div class="form-row">
                     <div class="form-group">
                         <label for="studio">Estudio de producción:</label>
