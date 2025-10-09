@@ -18,40 +18,95 @@
         <div class="form-container">
             <h2>Agregar Nueva Película</h2>
             <form id="movieForm">
-                <div class="form-group">
-                    <label for="title">Película:</label>
-                    <input type="text" id="title" required>
+                <!-- Campos principales -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="title">Película:*</label>
+                        <input type="text" id="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Año de Estreno:*</label>
+                        <input type="number" id="year" min="1900" max="2030" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="director">Director:</label>
+                    <label for="director">Director:*</label>
                     <input type="text" id="director" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="actor">Actor/Actriz Principal:</label>
+                    <label for="actor">Actor/Actriz Principal:*</label>
                     <input type="text" id="actor" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="year">Año de Estreno:</label>
-                    <input type="number" id="year" min="1900" max="2030" required>
+                <!-- NUEVOS CAMPOS -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="genre">Género:*</label>
+                        <select id="genre" required>
+                            <option value="">Selecciona un género</option>
+                            <option value="Acción">Acción</option>
+                            <option value="Aventura">Aventura</option>
+                            <option value="Comedia">Comedia</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Ciencia Ficción">Ciencia Ficción</option>
+                            <option value="Fantasía">Fantasía</option>
+                            <option value="Terror">Terror</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Suspense">Suspense</option>
+                            <option value="Animación">Animación</option>
+                            <option value="Documental">Documental</option>
+                            <option value="Musical">Musical</option>
+                            <option value="Bélico">Bélico</option>
+                            <option value="Western">Western</option>
+                            <option value="Biográfico">Biográfico</option>
+                            <option value="Histórico">Histórico</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Duración (min):*</label>
+                        <input type="number" id="duration" min="1" max="500" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="country">País:*</label>
+                        <input type="text" id="country" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="language">Idioma Original:*</label>
+                        <input type="text" id="language" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Valoración:</label>
-                    <div class="stars" id="stars">
-                        <span class="star" data-value="1">☆</span>
-                        <span class="star" data-value="2">☆</span>
-                        <span class="star" data-value="3">☆</span>
-                        <span class="star" data-value="4">☆</span>
-                        <span class="star" data-value="5">☆</span>
+                    <label for="budget">Presupuesto (opcional):</label>
+                    <input type="text" id="budget" placeholder="Ej: 50 millones USD">
+                </div>
+
+                <!-- Valoración con número visible -->
+                <div class="form-group">
+                    <label>Valoración:*</label>
+                    <div class="rating-container">
+                        <div class="stars" id="stars">
+                            <span class="star" data-value="1">☆</span>
+                            <span class="star" data-value="2">☆</span>
+                            <span class="star" data-value="3">☆</span>
+                            <span class="star" data-value="4">☆</span>
+                            <span class="star" data-value="5">☆</span>
+                        </div>
+                        <div class="rating-display">
+                            <span id="ratingValue">0/5</span>
+                        </div>
                     </div>
                     <input type="hidden" id="rating" value="0">
                 </div>
 
                 <div class="form-group">
-                    <label for="description">Descripción:</label>
+                    <label for="description">Descripción:*</label>
                     <textarea id="description" rows="3" required></textarea>
                 </div>
 
