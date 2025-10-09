@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle de Película - MIS PELÍCULAS FAVORITAS</title>
+    <title>Detalle de Película - My Movies Diaries</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -46,8 +46,8 @@
                                 <span id="detailDirector"></span>
                             </div>
                             <div class="info-item">
-                                <strong>Protagonista:</strong>
-                                <span id="detailActor"></span>
+                                <strong>Reparto:</strong>
+                                <span id="detailCast"></span>
                             </div>
                             <div class="info-item">
                                 <strong>País:</strong>
@@ -124,8 +124,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="editActor">Actor/Actriz Principal:*</label>
-                        <input type="text" id="editActor" required>
+                        <label for="editCast">Reparto:*</label>
+                        <input type="text" id="editCast" required placeholder="Lista de actores principales separados por comas">
                     </div>
 
                     <!-- Campos adicionales en edición -->
