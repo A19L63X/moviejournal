@@ -575,6 +575,63 @@ button:hover {
     margin-top: 20px;
 }
 
+/* LISTA ALFABÉTICA CON ENLACES */
+.alpha-list {
+    grid-column: 1 / -1;
+}
+
+.alpha-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.alpha-item:hover {
+    background: #f8f9fa;
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-left-color: #ffd700;
+}
+
+.alpha-title {
+    font-weight: bold;
+    color: #333;
+    flex: 1;
+    font-size: 1.1em;
+}
+
+.alpha-year {
+    color: #666;
+    background: #f8f9fa;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    font-weight: bold;
+    min-width: 70px;
+    text-align: center;
+}
+
+.alpha-rating {
+    background: #667eea;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    font-weight: bold;
+    min-width: 60px;
+    text-align: center;
+    margin-left: 10px;
+}
+
 /* Estados */
 .loading, .error-container {
     text-align: center;
@@ -600,35 +657,6 @@ button:hover {
     color: #666;
     font-size: 1.2em;
     margin-bottom: 10px;
-}
-
-.alpha-list {
-    grid-column: 1 / -1;
-}
-
-.alpha-item {
-    background: white;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border-left: 4px solid #667eea;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.alpha-title {
-    font-weight: bold;
-    color: #333;
-    flex: 1;
-}
-
-.alpha-year {
-    color: #666;
-    background: #f8f9fa;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.8em;
 }
 
 /* Mensajes */
@@ -710,6 +738,17 @@ button:hover {
         align-items: flex-start;
         gap: 10px;
     }
+    
+    .alpha-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .alpha-year, .alpha-rating {
+        align-self: flex-start;
+    }
 }
 
 @media (max-width: 480px) {
@@ -735,5 +774,13 @@ button:hover {
     
     .star {
         font-size: 24px;
+    }
+    
+    .alpha-item {
+        padding: 12px;
+    }
+    
+    .alpha-title {
+        font-size: 1em;
     }
 }
