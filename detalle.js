@@ -66,7 +66,7 @@ class MovieDetail {
         // Llenar datos en vista de lectura
         document.getElementById('detailTitle').textContent = this.movie.title;
         document.getElementById('detailDirector').textContent = this.movie.director;
-        document.getElementById('detailActor').textContent = this.movie.actor;
+        document.getElementById('detailCast').textContent = this.movie.cast;
         document.getElementById('detailYear').textContent = this.movie.year;
         document.getElementById('detailDuration').textContent = `${this.movie.duration} min`;
         document.getElementById('detailGenre').textContent = this.movie.genre;
@@ -118,7 +118,7 @@ class MovieDetail {
         document.getElementById('editId').value = this.movie.id;
         document.getElementById('editTitle').value = this.movie.title;
         document.getElementById('editDirector').value = this.movie.director;
-        document.getElementById('editActor').value = this.movie.actor;
+        document.getElementById('editCast').value = this.movie.cast;
         document.getElementById('editYear').value = this.movie.year;
         document.getElementById('editGenre').value = this.movie.genre;
         document.getElementById('editDuration').value = this.movie.duration;
@@ -290,7 +290,7 @@ class MovieDetail {
     getEditFormData() {
         const title = document.getElementById('editTitle').value.trim();
         const director = document.getElementById('editDirector').value.trim();
-        const actor = document.getElementById('editActor').value.trim();
+        const cast = document.getElementById('editCast').value.trim();
         const year = document.getElementById('editYear').value;
         const rating = this.currentRating;
         const description = document.getElementById('editDescription').value.trim();
@@ -313,7 +313,7 @@ class MovieDetail {
         const requiredFields = [
             { value: title, name: 'Película' },
             { value: director, name: 'Director' },
-            { value: actor, name: 'Actor/Actriz' },
+            { value: cast, name: 'Reparto' },
             { value: year, name: 'Año' },
             { value: genre, name: 'Género' },
             { value: duration, name: 'Duración' },
@@ -336,7 +336,7 @@ class MovieDetail {
         return {
             title,
             director,
-            actor,
+            cast,  // Ahora coincide con la columna en Supabase
             year: parseInt(year),
             rating,
             description,
