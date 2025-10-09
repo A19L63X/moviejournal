@@ -405,6 +405,7 @@ class MovieManager {
         return starsHTML;
     }
 
+    // LISTA ALFABÉTICA CON ENLACES A FICHAS
     renderAlphaView(movies) {
         const moviesList = document.getElementById('moviesList');
         
@@ -420,10 +421,13 @@ class MovieManager {
         moviesList.innerHTML = `
             <div class="alpha-list">
                 ${sortedMovies.map(movie => `
-                    <div class="alpha-item">
+                    <a href="detalle.html?id=${movie.id}" class="alpha-item">
                         <span class="alpha-title">${this.escapeHtml(movie.title)}</span>
-                        <span class="alpha-year">${movie.year}</span>
-                    </div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span class="alpha-year">${movie.year}</span>
+                            <span class="alpha-rating">${movie.rating}/5</span>
+                        </div>
+                    </a>
                 `).join('')}
             </div>
         `;
