@@ -163,6 +163,62 @@ header h1 {
   background-clip: text;
 }
 
+/* ===== ENLACES DE BÚSQUEDA ===== */
+.search-help {
+  background: rgba(102, 126, 234, 0.1);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 25px;
+  border: 2px dashed var(--primary);
+}
+
+.search-help h3 {
+  color: var(--primary);
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.search-links {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.search-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  border: 2px solid transparent;
+}
+
+.search-link.imdb {
+  background: linear-gradient(135deg, #f5c518, #d4af37);
+  color: #000;
+}
+
+.search-link.tmdb {
+  background: linear-gradient(135deg, #01d277, #00c4a7);
+  color: #fff;
+}
+
+.search-link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.search-link:active {
+  transform: translateY(0);
+}
+
 /* ===== GRUPOS DE FORMULARIO MODERNOS ===== */
 .form-group {
   margin-bottom: 28px;
@@ -1101,6 +1157,16 @@ button:active {
   .form-container, .movies-container, .movie-detail-container {
     padding: 30px;
   }
+  
+  .search-links {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .search-link {
+    width: 200px;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1145,5 +1211,14 @@ button:active {
   
   button {
     padding: 15px 25px;
+  }
+  
+  .search-help {
+    padding: 15px;
+  }
+  
+  .search-link {
+    padding: 10px 15px;
+    font-size: 0.9em;
   }
 }
