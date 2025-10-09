@@ -1,6 +1,6 @@
 // Configuración de Supabase - REEMPLAZA con tus credenciales
-const SUPABASE_URL = 'https://wszpszjpfasqfutjskbl.supabase.co'; // Tu URL de Supabase
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndzenBzempwZmFzcWZ1dGpza2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5Mzk1ODIsImV4cCI6MjA3NTUxNTU4Mn0.tc3U6nj3ZKlhz5I46DH6rTJcKrNR5VxPvjLGVlVLBVg'; // Tu clave pública anónima
+const SUPABASE_URL = 'https://wszpszjpfasqfutjskbl.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndzenBzempwZmFzcWZ1dGpza2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5Mzk1ODIsImV4cCI6MjA3NTUxNTU4Mn0.tc3U6nj3ZKlhz5I46DH6rTJcKrNR5VxPvjLGVlVLBVg';
 
 class MovieManager {
     constructor() {
@@ -13,17 +13,13 @@ class MovieManager {
 
     async init() {
         try {
-            // Inicializar Supabase
             this.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             
-            // Verificar conexión
             const { data, error } = await this.supabase.from('movies').select('count');
             
             if (error) {
                 console.warn('Error conectando a Supabase, usando localStorage:', error);
                 this.showMessage('Modo offline activado. Los datos se guardarán localmente.', 'info');
-            } else {
-                console.log('Conectado a Supabase correctamente');
             }
         } catch (error) {
             console.warn('Supabase no disponible, usando localStorage:', error);
@@ -34,9 +30,19 @@ class MovieManager {
     }
 
     setupEventListeners() {
-        // Sistema de estrellas
+        // SISTEMA DE MEDIAS ESTRELLAS
         document.querySelectorAll('.star').forEach(star => {
             star.addEventListener('click', () => this.setRating(star.dataset.value));
+            
+            // Efecto hover para medias estrellas
+            star.addEventListener('mouseover', (e) => {
+                const value = parseFloat(e.target.dataset.value);
+                this.highlightStars(value);
+            });
+        });
+
+        document.getElementById('stars').addEventListener('mouseleave', () => {
+            this.highlightStars(this.currentRating);
         });
 
         // Drag and drop para imágenes
@@ -91,19 +97,27 @@ class MovieManager {
         });
     }
 
+    // SISTEMA DE MEDIAS ESTRELLAS
     setRating(rating) {
-        this.currentRating = parseInt(rating);
+        this.currentRating = parseFloat(rating);
         document.getElementById('rating').value = this.currentRating;
-        
-        document.querySelectorAll('.star').forEach((star, index) => {
-            if (index < rating) {
+        this.highlightStars(this.currentRating);
+        this.updateRatingDisplay();
+    }
+
+    highlightStars(rating) {
+        document.querySelectorAll('#stars .star').forEach(star => {
+            const starValue = parseFloat(star.dataset.value);
+            if (starValue <= rating) {
                 star.classList.add('active');
-                star.textContent = '★';
             } else {
                 star.classList.remove('active');
-                star.textContent = '☆';
             }
         });
+    }
+
+    updateRatingDisplay() {
+        document.getElementById('ratingValue').textContent = `${this.currentRating}/5`;
     }
 
     handleImageUpload(file) {
@@ -128,7 +142,6 @@ class MovieManager {
             let result;
 
             if (this.supabase) {
-                // Guardar en Supabase
                 const { data, error } = await this.supabase
                     .from('movies')
                     .insert([movieData])
@@ -137,7 +150,6 @@ class MovieManager {
                 if (error) throw error;
                 result = data[0];
             } else {
-                // Fallback a localStorage
                 movieData.id = Date.now();
                 movieData.created_at = new Date().toISOString();
                 result = movieData;
@@ -185,11 +197,15 @@ class MovieManager {
 
     resetForm() {
         document.getElementById('movieForm').reset();
-        this.setRating(0);
+        this.currentRating = 0;
+        this.highlightStars(0);
+        this.updateRatingDisplay();
         document.getElementById('imagePreview').innerHTML = '';
+        document.getElementById('rating').value = '0';
     }
 
     getFormData() {
+        // Campos principales
         const title = document.getElementById('title').value.trim();
         const director = document.getElementById('director').value.trim();
         const actor = document.getElementById('actor').value.trim();
@@ -197,13 +213,39 @@ class MovieManager {
         const rating = this.currentRating;
         const description = document.getElementById('description').value.trim();
         
+        // Campos adicionales
+        const genre = document.getElementById('genre').value;
+        const duration = document.getElementById('duration').value;
+        const country = document.getElementById('country').value.trim();
+        const language = document.getElementById('language').value.trim();
+        const budget = document.getElementById('budget').value.trim();
+        const studio = document.getElementById('studio').value.trim();
+        const boxOffice = document.getElementById('boxOffice').value.trim();
+        const screenplay = document.getElementById('screenplay').value.trim();
+        const music = document.getElementById('music').value.trim();
+        const cinematography = document.getElementById('cinematography').value.trim();
+        const awards = document.getElementById('awards').value.trim();
+        
         const preview = document.querySelector('.preview-image');
         const poster = preview ? preview.src : '';
 
         // Validaciones
-        if (!title || !director || !actor || !year) {
-            this.showMessage('Por favor, completa todos los campos obligatorios', 'error');
-            return null;
+        const requiredFields = [
+            { value: title, name: 'Película' },
+            { value: director, name: 'Director' },
+            { value: actor, name: 'Actor/Actriz' },
+            { value: year, name: 'Año' },
+            { value: genre, name: 'Género' },
+            { value: duration, name: 'Duración' },
+            { value: country, name: 'País' },
+            { value: language, name: 'Idioma' }
+        ];
+
+        for (let field of requiredFields) {
+            if (!field.value) {
+                this.showMessage(`Por favor, completa el campo: ${field.name}`, 'error');
+                return null;
+            }
         }
 
         if (rating === 0) {
@@ -218,6 +260,17 @@ class MovieManager {
             year: parseInt(year),
             rating,
             description,
+            genre,
+            duration: parseInt(duration),
+            country,
+            language,
+            budget: budget || 'No especificado',
+            studio: studio || 'No especificado',
+            box_office: boxOffice || 'No especificado',
+            screenplay: screenplay || 'No especificado',
+            music: music || 'No especificado',
+            cinematography: cinematography || 'No especificado',
+            awards: awards || 'No especificado',
             poster,
             created_at: new Date().toISOString()
         };
@@ -228,7 +281,6 @@ class MovieManager {
             let movies = [];
 
             if (this.supabase) {
-                // Cargar desde Supabase
                 const { data, error } = await this.supabase
                     .from('movies')
                     .select('*')
@@ -237,7 +289,6 @@ class MovieManager {
                 if (error) throw error;
                 movies = data || [];
             } else {
-                // Cargar desde localStorage
                 const localData = localStorage.getItem('movies');
                 movies = localData ? JSON.parse(localData) : [];
             }
@@ -247,7 +298,6 @@ class MovieManager {
             
         } catch (error) {
             console.error('Error cargando películas:', error);
-            // Fallback a localStorage
             const localData = localStorage.getItem('movies');
             this.movies = localData ? JSON.parse(localData) : [];
             this.renderMovies();
@@ -266,16 +316,15 @@ class MovieManager {
         
         let filteredMovies = this.movies;
 
-        // Aplicar búsqueda
         if (searchTerm) {
             filteredMovies = this.movies.filter(movie => 
                 movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 movie.director.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                movie.actor.toLowerCase().includes(searchTerm.toLowerCase())
+                movie.actor.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                movie.genre.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
 
-        // Actualizar contador
         moviesCount.textContent = `${filteredMovies.length} película${filteredMovies.length !== 1 ? 's' : ''}`;
 
         if (this.isAlphaView) {
@@ -299,13 +348,40 @@ class MovieManager {
                     '<div class="no-poster">🎬 Sin póster</div>'
                 }
                 <div class="movie-title">${this.escapeHtml(movie.title)} (${movie.year})</div>
-                <div class="movie-info"><strong>Director:</strong> ${this.escapeHtml(movie.director)}</div>
-                <div class="movie-info"><strong>Protagonista:</strong> ${this.escapeHtml(movie.actor)}</div>
-                <div class="movie-info">
-                    <strong>Valoración:</strong> 
-                    ${'★'.repeat(movie.rating)}${'☆'.repeat(5 - movie.rating)}
+                
+                <div class="movie-info-grid">
+                    <div class="movie-info">
+                        <strong>Director:</strong>
+                        <span>${this.escapeHtml(movie.director)}</span>
+                    </div>
+                    <div class="movie-info">
+                        <strong>Protagonista:</strong>
+                        <span>${this.escapeHtml(movie.actor)}</span>
+                    </div>
+                    <div class="movie-info">
+                        <strong>Género:</strong>
+                        <span>${this.escapeHtml(movie.genre)}</span>
+                    </div>
+                    <div class="movie-info">
+                        <strong>Duración:</strong>
+                        <span>${movie.duration} min</span>
+                    </div>
+                    <div class="movie-info">
+                        <strong>País:</strong>
+                        <span>${this.escapeHtml(movie.country)}</span>
+                    </div>
                 </div>
+                
+                <div class="movie-rating">
+                    <strong>Valoración:</strong> 
+                    <div class="stars-small">
+                        ${this.renderStarsSmall(movie.rating)}
+                    </div>
+                    <span class="rating-small">${movie.rating}/5</span>
+                </div>
+                
                 <div class="movie-description">${this.escapeHtml(movie.description)}</div>
+                
                 <div class="movie-actions">
                     <a href="detalle.html?id=${movie.id}" class="view-btn">👁️ VER</a>
                     <button class="delete-btn" onclick="movieManager.deleteMovie(${movie.id})">
@@ -316,10 +392,22 @@ class MovieManager {
         `).join('');
     }
 
+    // Renderizar estrellas pequeñas para las tarjetas
+    renderStarsSmall(rating) {
+        let starsHTML = '';
+        for (let i = 0.5; i <= 5; i += 0.5) {
+            if (i <= rating) {
+                starsHTML += '<span class="star active">★</span>';
+            } else {
+                starsHTML += '<span class="star">☆</span>';
+            }
+        }
+        return starsHTML;
+    }
+
     renderAlphaView(movies) {
         const moviesList = document.getElementById('moviesList');
         
-        // Ordenar alfabéticamente
         const sortedMovies = [...movies].sort((a, b) => 
             a.title.localeCompare(b.title, 'es', { sensitivity: 'base' })
         );
@@ -361,13 +449,13 @@ class MovieManager {
     }
 
     escapeHtml(text) {
+        if (!text) return '';
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
 
     showMessage(message, type = 'info') {
-        // Remover mensajes existentes
         const existingMessages = document.querySelectorAll('.message');
         existingMessages.forEach(msg => msg.remove());
 
@@ -377,7 +465,6 @@ class MovieManager {
         
         document.body.appendChild(messageEl);
 
-        // Auto-remover después de 4 segundos
         setTimeout(() => {
             if (messageEl.parentNode) {
                 messageEl.style.animation = 'slideOut 0.3s ease';
