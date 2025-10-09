@@ -45,6 +45,14 @@ class MovieManager {
             this.highlightStars(this.currentRating);
         });
 
+        // Enlaces de búsqueda IMDB y TMDB
+        document.getElementById('title').addEventListener('input', (e) => {
+            this.updateSearchLinks(e.target.value);
+        });
+
+        // Inicializar enlaces de búsqueda
+        this.updateSearchLinks('');
+
         // Drag and drop para imágenes
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('poster');
@@ -95,6 +103,25 @@ class MovieManager {
         document.getElementById('showAll').addEventListener('click', () => {
             this.showAllMovies();
         });
+    }
+
+    // Actualizar enlaces de búsqueda IMDB y TMDB
+    updateSearchLinks(title) {
+        const imdbLink = document.getElementById('imdbSearch');
+        const tmdbLink = document.getElementById('tmdbSearch');
+        
+        if (title && title.trim() !== '') {
+            const encodedTitle = encodeURIComponent(title.trim());
+            imdbLink.href = `https://www.imdb.com/find?q=${encodedTitle}`;
+            tmdbLink.href = `https://www.themoviedb.org/search?query=${encodedTitle}`;
+            imdbLink.style.opacity = '1';
+            tmdbLink.style.opacity = '1';
+        } else {
+            imdbLink.href = '#';
+            tmdbLink.href = '#';
+            imdbLink.style.opacity = '0.6';
+            tmdbLink.style.opacity = '0.6';
+        }
     }
 
     // SISTEMA DE MEDIAS ESTRELLAS
@@ -202,13 +229,14 @@ class MovieManager {
         this.updateRatingDisplay();
         document.getElementById('imagePreview').innerHTML = '';
         document.getElementById('rating').value = '0';
+        this.updateSearchLinks('');
     }
 
     getFormData() {
         // Campos principales
         const title = document.getElementById('title').value.trim();
         const director = document.getElementById('director').value.trim();
-        const actor = document.getElementById('actor').value.trim();
+        const cast = document.getElementById('cast').value.trim();
         const year = document.getElementById('year').value;
         const rating = this.currentRating;
         const description = document.getElementById('description').value.trim();
@@ -233,7 +261,7 @@ class MovieManager {
         const requiredFields = [
             { value: title, name: 'Película' },
             { value: director, name: 'Director' },
-            { value: actor, name: 'Actor/Actriz' },
+            { value: cast, name: 'Reparto' },
             { value: year, name: 'Año' },
             { value: genre, name: 'Género' },
             { value: duration, name: 'Duración' },
@@ -256,7 +284,7 @@ class MovieManager {
         return {
             title,
             director,
-            actor,
+            cast,  // Ahora coincide con la columna en Supabase
             year: parseInt(year),
             rating,
             description,
@@ -320,7 +348,7 @@ class MovieManager {
             filteredMovies = this.movies.filter(movie => 
                 movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 movie.director.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                movie.actor.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                movie.cast.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 movie.genre.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
@@ -355,8 +383,8 @@ class MovieManager {
                         <span>${this.escapeHtml(movie.director)}</span>
                     </div>
                     <div class="movie-info">
-                        <strong>Protagonista:</strong>
-                        <span>${this.escapeHtml(movie.actor)}</span>
+                        <strong>Reparto:</strong>
+                        <span>${this.escapeHtml(movie.cast)}</span>
                     </div>
                     <div class="movie-info">
                         <strong>Género:</strong>
