@@ -28,9 +28,9 @@
                     <div class="info-section">
                         <h2 id="detailTitle" class="detail-title"></h2>
                         
-                        <!-- Rating con número -->
+                        <!-- Rating con medias estrellas y número -->
                         <div class="detail-rating-container">
-                            <div class="detail-rating" id="detailRating"></div>
+                            <div class="detail-rating-stars" id="detailRating"></div>
                             <span class="rating-number" id="detailRatingNumber"></span>
                         </div>
                         
@@ -60,6 +60,30 @@
                             <div class="info-item">
                                 <strong>Presupuesto:</strong>
                                 <span id="detailBudget"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Estudio:</strong>
+                                <span id="detailStudio"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Taquilla:</strong>
+                                <span id="detailBoxOffice"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Guionista:</strong>
+                                <span id="detailScreenplay"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Música:</strong>
+                                <span id="detailMusic"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Fotografía:</strong>
+                                <span id="detailCinematography"></span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Premios:</strong>
+                                <span id="detailAwards"></span>
                             </div>
                         </div>
                     </div>
@@ -104,7 +128,7 @@
                         <input type="text" id="editActor" required>
                     </div>
 
-                    <!-- NUEVOS CAMPOS EN EDICIÓN -->
+                    <!-- Campos adicionales en edición -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="editGenre">Género:*</label>
@@ -147,20 +171,58 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="editBudget">Presupuesto (opcional):</label>
+                        <label for="editBudget">Presupuesto:</label>
                         <input type="text" id="editBudget" placeholder="Ej: 50 millones USD">
                     </div>
 
-                    <!-- Rating con número en edición -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editStudio">Estudio de producción:</label>
+                            <input type="text" id="editStudio" placeholder="Ej: Warner Bros">
+                        </div>
+                        <div class="form-group">
+                            <label for="editBoxOffice">Taquilla mundial:</label>
+                            <input type="text" id="editBoxOffice" placeholder="Ej: 500 millones USD">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editScreenplay">Guionista:</label>
+                            <input type="text" id="editScreenplay" placeholder="Escritor del guión">
+                        </div>
+                        <div class="form-group">
+                            <label for="editMusic">Música:</label>
+                            <input type="text" id="editMusic" placeholder="Compositor de la banda sonora">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCinematography">Fotografía:</label>
+                            <input type="text" id="editCinematography" placeholder="Director de fotografía">
+                        </div>
+                        <div class="form-group">
+                            <label for="editAwards">Premios:</label>
+                            <input type="text" id="editAwards" placeholder="Ej: 5 Oscars, 3 Globos de Oro">
+                        </div>
+                    </div>
+
+                    <!-- Sistema de medias estrellas en edición -->
                     <div class="form-group">
                         <label>Valoración:*</label>
                         <div class="rating-container">
                             <div class="stars" id="editStars">
-                                <span class="star" data-value="1">☆</span>
-                                <span class="star" data-value="2">☆</span>
-                                <span class="star" data-value="3">☆</span>
-                                <span class="star" data-value="4">☆</span>
-                                <span class="star" data-value="5">☆</span>
+                                <span class="star half" data-value="0.5">☆</span>
+                                <span class="star full" data-value="1">☆</span>
+                                <span class="star half" data-value="1.5">☆</span>
+                                <span class="star full" data-value="2">☆</span>
+                                <span class="star half" data-value="2.5">☆</span>
+                                <span class="star full" data-value="3">☆</span>
+                                <span class="star half" data-value="3.5">☆</span>
+                                <span class="star full" data-value="4">☆</span>
+                                <span class="star half" data-value="4.5">☆</span>
+                                <span class="star full" data-value="5">☆</span>
                             </div>
                             <div class="rating-display">
                                 <span id="editRatingValue">0/5</span>
