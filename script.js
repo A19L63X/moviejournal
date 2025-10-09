@@ -284,7 +284,7 @@ class MovieManager {
         return {
             title,
             director,
-            cast,  // Ahora coincide con la columna en Supabase
+            movie_cast: cast,  // Cambiado a movie_cast para Supabase
             year: parseInt(year),
             rating,
             description,
@@ -348,7 +348,7 @@ class MovieManager {
             filteredMovies = this.movies.filter(movie => 
                 movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 movie.director.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                movie.cast.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (movie.movie_cast && movie.movie_cast.toLowerCase().includes(searchTerm.toLowerCase())) ||
                 movie.genre.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
@@ -384,7 +384,7 @@ class MovieManager {
                     </div>
                     <div class="movie-info">
                         <strong>Reparto:</strong>
-                        <span>${this.escapeHtml(movie.cast)}</span>
+                        <span>${this.escapeHtml(movie.movie_cast)}</span>
                     </div>
                     <div class="movie-info">
                         <strong>Género:</strong>
