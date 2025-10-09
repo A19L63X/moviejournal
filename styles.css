@@ -35,7 +35,6 @@ header h1 {
     font-weight: 300;
 }
 
-/* Botón volver */
 .back-button {
     display: inline-block;
     background: rgba(255, 255, 255, 0.2);
@@ -53,7 +52,7 @@ header h1 {
     transform: translateY(-2px);
 }
 
-/* Estilos del formulario (mantenidos) */
+/* Estilos del formulario */
 .form-container {
     background: white;
     padding: 30px;
@@ -74,7 +73,7 @@ header h1 {
 
 .form-row {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 15px;
 }
 
@@ -87,25 +86,37 @@ label {
 
 input[type="text"],
 input[type="number"],
-textarea {
+textarea,
+select {
     width: 100%;
     padding: 12px;
     border: 2px solid #ddd;
     border-radius: 8px;
     font-size: 16px;
     transition: border-color 0.3s;
+    background: white;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
     outline: none;
     border-color: #667eea;
 }
 
+/* SISTEMA DE MEDIAS ESTRELLAS */
+.rating-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
 .stars {
     display: flex;
-    gap: 5px;
+    gap: 2px;
+    position: relative;
 }
 
 .star {
@@ -113,13 +124,73 @@ textarea:focus {
     cursor: pointer;
     color: #ddd;
     transition: color 0.2s;
+    position: relative;
+    width: 20px;
+    text-align: center;
 }
 
-.star:hover,
+.star.half::before {
+    content: '★';
+    position: absolute;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+    color: transparent;
+}
+
 .star.active {
     color: #ffd700;
 }
 
+.star.half.active::before {
+    color: #ffd700;
+}
+
+/* Efecto hover para medias estrellas */
+.star:hover,
+.star.half:hover::before {
+    color: #ffd700;
+}
+
+.rating-display {
+    background: #667eea;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    min-width: 60px;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+/* Estrellas en vista de detalle */
+.detail-rating-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.detail-rating-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.detail-rating-stars .star {
+    cursor: default;
+    font-size: 28px;
+}
+
+.rating-number {
+    background: #667eea;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* Drop zone */
 .drop-zone {
     border: 2px dashed #667eea;
     border-radius: 8px;
@@ -221,7 +292,7 @@ button:hover {
 
 .movies-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 20px;
 }
 
@@ -250,13 +321,54 @@ button:hover {
     font-size: 1.2em;
     font-weight: bold;
     color: #333;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+}
+
+.movie-info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+    margin-bottom: 10px;
 }
 
 .movie-info {
     color: #666;
     font-size: 0.9em;
-    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.movie-info strong {
+    color: #555;
+}
+
+.movie-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.stars-small {
+    display: flex;
+    gap: 1px;
+}
+
+.stars-small .star {
+    font-size: 16px;
+    cursor: default;
+}
+
+.rating-small {
+    background: #667eea;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    font-weight: bold;
 }
 
 .movie-description {
@@ -287,6 +399,7 @@ button:hover {
     font-size: 14px;
     text-decoration: none;
     text-align: center;
+    transition: all 0.2s;
 }
 
 .view-btn:hover {
@@ -303,6 +416,7 @@ button:hover {
     cursor: pointer;
     flex: 1;
     font-size: 14px;
+    transition: all 0.2s;
 }
 
 .delete-btn:hover {
@@ -344,17 +458,12 @@ button:hover {
     line-height: 1.2;
 }
 
-.detail-rating {
-    font-size: 1.8em;
-    color: #ffd700;
-    margin-bottom: 15px;
-}
-
 .detail-meta {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     margin-bottom: 15px;
+    flex-wrap: wrap;
 }
 
 .year-badge {
@@ -365,14 +474,39 @@ button:hover {
     font-weight: bold;
 }
 
-.director-info {
-    font-size: 1.1em;
-    color: #666;
+.duration-badge, .genre-badge {
+    background: #28a745;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: bold;
 }
 
-.actor-info {
-    font-size: 1.1em;
+.genre-badge {
+    background: #6f42c1;
+}
+
+.detail-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid #667eea;
+}
+
+.info-item strong {
     color: #555;
+    font-size: 0.9em;
+    margin-bottom: 3px;
 }
 
 .description-section {
@@ -549,6 +683,10 @@ button:hover {
         grid-template-columns: 1fr;
     }
     
+    .detail-info-grid {
+        grid-template-columns: 1fr;
+    }
+    
     .action-buttons, .form-buttons {
         flex-direction: column;
     }
@@ -559,6 +697,18 @@ button:hover {
     
     #moviesCount {
         width: 100%;
+    }
+    
+    .rating-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .detail-rating-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
     }
 }
 
@@ -581,5 +731,9 @@ button:hover {
     
     .detail-title {
         font-size: 1.6em;
+    }
+    
+    .star {
+        font-size: 24px;
     }
 }
