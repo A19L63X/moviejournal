@@ -66,7 +66,7 @@ class MovieDetail {
         // Llenar datos en vista de lectura
         document.getElementById('detailTitle').textContent = this.movie.title;
         document.getElementById('detailDirector').textContent = this.movie.director;
-        document.getElementById('detailCast').textContent = this.movie.cast;
+        document.getElementById('detailCast').textContent = this.movie.movie_cast;
         document.getElementById('detailYear').textContent = this.movie.year;
         document.getElementById('detailDuration').textContent = `${this.movie.duration} min`;
         document.getElementById('detailGenre').textContent = this.movie.genre;
@@ -118,7 +118,7 @@ class MovieDetail {
         document.getElementById('editId').value = this.movie.id;
         document.getElementById('editTitle').value = this.movie.title;
         document.getElementById('editDirector').value = this.movie.director;
-        document.getElementById('editCast').value = this.movie.cast;
+        document.getElementById('editCast').value = this.movie.movie_cast;
         document.getElementById('editYear').value = this.movie.year;
         document.getElementById('editGenre').value = this.movie.genre;
         document.getElementById('editDuration').value = this.movie.duration;
@@ -336,7 +336,7 @@ class MovieDetail {
         return {
             title,
             director,
-            cast,  // Ahora coincide con la columna en Supabase
+            movie_cast: cast,  // Cambiado a movie_cast para Supabase
             year: parseInt(year),
             rating,
             description,
