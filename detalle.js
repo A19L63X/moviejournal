@@ -122,7 +122,14 @@ class MovieDetail {
         document.getElementById('editDirector').value = this.movie.director;
         document.getElementById('editCast').value = this.movie.movie_cast;
         document.getElementById('editYear').value = this.movie.year;
-        document.getElementById('editGenre').value = this.movie.genre;
+        
+        // Pre-seleccionar géneros (pueden ser múltiples)
+        const genres = this.movie.genre.split(',').map(g => g.trim());
+        const genreSelect = document.getElementById('editGenre');
+        for (let option of genreSelect.options) {
+            option.selected = genres.includes(option.value);
+        }
+        
         document.getElementById('editDuration').value = this.movie.duration;
         document.getElementById('editCountry').value = this.movie.country;
         document.getElementById('editLanguage').value = this.movie.language;
@@ -206,6 +213,21 @@ class MovieDetail {
                 this.handleEditImageUpload(e.target.files[0]);
             }
         });
+
+        // Limitar selección de géneros a 2 en edición
+        document.getElementById('editGenre').addEventListener('change', (e) => {
+            this.limitGenreSelection(e.target);
+        });
+    }
+
+    // Limitar selección de géneros a 2
+    limitGenreSelection(selectElement) {
+        const selectedOptions = Array.from(selectElement.selectedOptions);
+        if (selectedOptions.length > 2) {
+            // Deseleccionar el último seleccionado
+            selectedOptions[selectedOptions.length - 1].selected = false;
+            this.showMessage('Solo puedes seleccionar hasta 2 géneros', 'info');
+        }
     }
 
     // SISTEMA DE MEDIAS ESTRELLAS PARA EDICIÓN
@@ -299,7 +321,11 @@ class MovieDetail {
         const description = document.getElementById('editDescription').value.trim();
         const review = document.getElementById('editReview').value.trim();
         
-        const genre = document.getElementById('editGenre').value;
+        // OBTENER MÚLTIPLES GÉNEROS
+        const genreSelect = document.getElementById('editGenre');
+        const selectedGenres = Array.from(genreSelect.selectedOptions).map(option => option.value);
+        const genre = selectedGenres.join(', ');
+        
         const duration = document.getElementById('editDuration').value;
         const country = document.getElementById('editCountry').value.trim();
         const language = document.getElementById('editLanguage').value.trim();
@@ -319,7 +345,6 @@ class MovieDetail {
             { value: director, name: 'Director' },
             { value: cast, name: 'Reparto' },
             { value: year, name: 'Año' },
-            { value: genre, name: 'Género' },
             { value: duration, name: 'Duración' },
             { value: country, name: 'País' },
             { value: language, name: 'Idioma' }
@@ -330,6 +355,12 @@ class MovieDetail {
                 this.showMessage(`Por favor, completa el campo: ${field.name}`, 'error');
                 return null;
             }
+        }
+
+        // Validar que se haya seleccionado al menos un género
+        if (selectedGenres.length === 0) {
+            this.showMessage('Por favor, selecciona al menos un género', 'error');
+            return null;
         }
 
         if (rating === 0) {
