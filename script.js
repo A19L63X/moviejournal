@@ -131,7 +131,7 @@ class MovieManager {
             const encodedTitle = encodeURIComponent(title.trim());
             imdbLink.href = `https://www.imdb.com/find?q=${encodedTitle}`;
             tmdbLink.href = `https://www.themoviedb.org/search?query=${encodedTitle}`;
-            wikipediaLink.href = `https://en.wikipedia.org/w/index.php?search=${encodedTitle}`;
+            wikipediaLink.href = `https://es.wikipedia.org/w/index.php?search=${encodedTitle}`;
             imdbLink.style.opacity = '1';
             tmdbLink.style.opacity = '1';
             wikipediaLink.style.opacity = '1';
