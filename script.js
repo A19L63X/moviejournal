@@ -46,7 +46,7 @@ class MovieManager {
             this.highlightStars(this.currentRating);
         });
 
-        // Enlaces de búsqueda IMDB y TMDB
+        // Enlaces de búsqueda IMDB, TMDB y Wikipedia
         document.getElementById('title').addEventListener('input', (e) => {
             this.updateSearchLinks(e.target.value);
         });
