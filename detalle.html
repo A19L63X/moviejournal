@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle de Película - My Movies Diaries</title>
-    <link rel="stylesheet" href="styles.css?v=3.1">
+    <link rel="stylesheet" href="styles.css?v=4.0">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -113,11 +113,11 @@
                     <input type="hidden" id="editId">
                     
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group large">
                             <label for="editTitle">Película:*</label>
                             <input type="text" id="editTitle" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group small">
                             <label for="editYear">Año:*</label>
                             <input type="number" id="editYear" min="1900" max="2030" required>
                         </div>
@@ -135,7 +135,7 @@
 
                     <!-- Campos adicionales en edición -->
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group medium">
                             <label for="editGenre">Género:*</label>
                             <select id="editGenre" required>
                                 <option value="">Selecciona un género</option>
@@ -158,18 +158,15 @@
                                 <option value="Otro">Otro</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group small">
                             <label for="editDuration">Duración (min):*</label>
                             <input type="number" id="editDuration" min="1" max="500" required>
                         </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group medium">
                             <label for="editCountry">País:*</label>
                             <input type="text" id="editCountry" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group medium">
                             <label for="editLanguage">Idioma:*</label>
                             <input type="text" id="editLanguage" required>
                         </div>
@@ -181,40 +178,40 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group medium">
                             <label for="editStudio">Estudio de producción:</label>
                             <input type="text" id="editStudio" placeholder="Ej: Warner Bros">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group medium">
                             <label for="editBoxOffice">Taquilla mundial:</label>
                             <input type="text" id="editBoxOffice" placeholder="Ej: 500 millones USD">
                         </div>
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group medium">
                             <label for="editScreenplay">Guionista:</label>
                             <input type="text" id="editScreenplay" placeholder="Escritor del guión">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group medium">
                             <label for="editMusic">Música:</label>
                             <input type="text" id="editMusic" placeholder="Compositor de la banda sonora">
                         </div>
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group medium">
                             <label for="editCinematography">Fotografía:</label>
                             <input type="text" id="editCinematography" placeholder="Director de fotografía">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group medium">
                             <label for="editAwards">Premios:</label>
                             <input type="text" id="editAwards" placeholder="Ej: 5 Oscars, 3 Globos de Oro">
                         </div>
                     </div>
 
                     <!-- Sistema de medias estrellas en edición -->
-                    <div class="form-group">
+                    <div class="form-group compact">
                         <label>Valoración:*</label>
                         <div class="rating-container">
                             <div class="stars" id="editStars">
@@ -238,15 +235,15 @@
 
                     <div class="form-group">
                         <label for="editDescription">Descripción:*</label>
-                        <textarea id="editDescription" rows="4" required></textarea>
+                        <textarea id="editDescription" rows="3" required></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="editReview">Reseña Personal:</label>
-                        <textarea id="editReview" rows="4" placeholder="Escribe tus impresiones sobre la película..."></textarea>
+                        <textarea id="editReview" rows="3" placeholder="Escribe tus impresiones personales sobre la película..."></textarea>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group compact">
                         <label for="editPoster">Póster de la Película:</label>
                         <div class="drop-zone" id="editDropZone">
                             <span>Arrastra una nueva imagen aquí o haz clic para seleccionar</span>
@@ -270,6 +267,6 @@
         </div>
     </div>
 
-    <script src="detalle.js?v=3.1"></script>
+    <script src="detalle.js?v=4.0"></script>
 </body>
 </html>
