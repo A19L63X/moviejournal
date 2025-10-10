@@ -28,6 +28,10 @@
                     <a id="tmdbSearch" href="#" target="_blank" class="search-link tmdb">
                         <span>🔍 Buscar en TMDB</span>
                     </a>
+                    <!-- NUEVO BOTÓN WIKIPEDIA -->
+                    <a id="wikipediaSearch" href="#" target="_blank" class="search-link wikipedia">
+                        <span>🔍 Buscar en Wikipedia</span>
+                    </a>
                 </div>
             </div>
 
@@ -60,26 +64,68 @@
                 <div class="form-row">
                     <div class="form-group medium">
                         <label for="genre">Género:*</label>
-                        <select id="genre" required>
-                            <option value="">Selecciona género</option>
-                            <option value="Acción">Acción</option>
-                            <option value="Aventura">Aventura</option>
-                            <option value="Comedia">Comedia</option>
-                            <option value="Drama">Drama</option>
-                            <option value="Ciencia Ficción">Ciencia Ficción</option>
-                            <option value="Fantasía">Fantasía</option>
-                            <option value="Terror">Terror</option>
-                            <option value="Romance">Romance</option>
-                            <option value="Suspense">Suspense</option>
-                            <option value="Animación">Animación</option>
-                            <option value="Documental">Documental</option>
-                            <option value="Musical">Musical</option>
-                            <option value="Bélico">Bélico</option>
-                            <option value="Western">Western</option>
-                            <option value="Biográfico">Biográfico</option>
-                            <option value="Histórico">Histórico</option>
-                            <option value="Otro">Otro</option>
-                        </select>
+                        <div class="genre-checkboxes">
+                            <div class="checkbox-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Acción"> Acción
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Aventura"> Aventura
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Comedia"> Comedia
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Drama"> Drama
+                                </label>
+                            </div>
+                            <div class="checkbox-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Ciencia Ficción"> Ciencia Ficción
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Fantasía"> Fantasía
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Terror"> Terror
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Romance"> Romance
+                                </label>
+                            </div>
+                            <div class="checkbox-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Suspense"> Suspense
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Animación"> Animación
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Documental"> Documental
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Musical"> Musical
+                                </label>
+                            </div>
+                            <div class="checkbox-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Bélico"> Bélico
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Western"> Western
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Biográfico"> Biográfico
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Histórico"> Histórico
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="genre" value="Otro"> Otro
+                                </label>
+                            </div>
+                        </div>
+                        <input type="hidden" id="genre" required>
                     </div>
                     <div class="form-group small">
                         <label for="duration">Duración (min):*</label>
