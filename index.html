@@ -28,6 +28,10 @@
                     <a id="tmdbSearch" href="#" target="_blank" class="search-link tmdb">
                         <span>🔍 Buscar en TMDB</span>
                     </a>
+                    <!-- NUEVO ENLACE A WIKIPEDIA -->
+                    <a id="wikipediaSearch" href="#" target="_blank" class="search-link wikipedia">
+                        <span>🔍 Buscar en Wikipedia</span>
+                    </a>
                 </div>
             </div>
 
@@ -59,9 +63,8 @@
                 <!-- Tercera fila: Género, Duración, País, Idioma -->
                 <div class="form-row">
                     <div class="form-group medium">
-                        <label for="genre">Género:*</label>
-                        <select id="genre" required>
-                            <option value="">Selecciona género</option>
+                        <label for="genre">Género:* (Puedes seleccionar hasta 2)</label>
+                        <select id="genre" multiple required size="6">
                             <option value="Acción">Acción</option>
                             <option value="Aventura">Aventura</option>
                             <option value="Comedia">Comedia</option>
@@ -198,6 +201,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=4.0"></script>
+    <script src="script.js?v=4.1"></script>
 </body>
 </html>
