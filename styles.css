@@ -58,7 +58,8 @@
 
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  /* NUEVO FONDO ROSA BEBÉ DEGRADADO */
+  background: linear-gradient(135deg, #ffd1dc 0%, #f8c8dc 50%, #d1b2ff 100%);
   background-attachment: fixed;
   min-height: 100vh;
   padding: 20px;
