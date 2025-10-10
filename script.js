@@ -240,6 +240,7 @@ class MovieManager {
         const year = document.getElementById('year').value;
         const rating = this.currentRating;
         const description = document.getElementById('description').value.trim();
+        const review = document.getElementById('review').value.trim();
         
         // Campos adicionales
         const genre = document.getElementById('genre').value;
@@ -284,10 +285,11 @@ class MovieManager {
         return {
             title,
             director,
-            movie_cast: cast,  // Cambiado a movie_cast para Supabase
+            movie_cast: cast,
             year: parseInt(year),
             rating,
             description,
+            review: review || 'Sin reseña personal',
             genre,
             duration: parseInt(duration),
             country,
@@ -375,41 +377,12 @@ class MovieManager {
                     `<img src="${movie.poster}" class="movie-poster" alt="${movie.title}" onerror="this.style.display='none'">` : 
                     '<div class="no-poster">🎬 Sin póster</div>'
                 }
-                <div class="movie-title">${this.escapeHtml(movie.title)} (${movie.year})</div>
-                
-                <div class="movie-info-grid">
-                    <div class="movie-info">
-                        <strong>Director:</strong>
-                        <span>${this.escapeHtml(movie.director)}</span>
-                    </div>
-                    <div class="movie-info">
-                        <strong>Reparto:</strong>
-                        <span>${this.escapeHtml(movie.movie_cast)}</span>
-                    </div>
-                    <div class="movie-info">
-                        <strong>Género:</strong>
-                        <span>${this.escapeHtml(movie.genre)}</span>
-                    </div>
-                    <div class="movie-info">
-                        <strong>Duración:</strong>
-                        <span>${movie.duration} min</span>
-                    </div>
-                    <div class="movie-info">
-                        <strong>País:</strong>
-                        <span>${this.escapeHtml(movie.country)}</span>
-                    </div>
+                <div class="movie-title">${this.escapeHtml(movie.title)}</div>
+                <div class="movie-year-rating">
+                    <span class="movie-year">${movie.year}</span>
+                    <span class="rating-number">${movie.rating}/5</span>
                 </div>
-                
-                <div class="movie-rating">
-                    <strong>Valoración:</strong> 
-                    <div class="stars-small">
-                        ${this.renderStarsSmall(movie.rating)}
-                    </div>
-                    <span class="rating-small">${movie.rating}/5</span>
-                </div>
-                
                 <div class="movie-description">${this.escapeHtml(movie.description)}</div>
-                
                 <div class="movie-actions">
                     <a href="detalle.html?id=${movie.id}" class="view-btn">👁️ VER</a>
                     <button class="delete-btn" onclick="movieManager.deleteMovie(${movie.id})">
@@ -418,19 +391,6 @@ class MovieManager {
                 </div>
             </div>
         `).join('');
-    }
-
-    // Renderizar estrellas pequeñas para las tarjetas
-    renderStarsSmall(rating) {
-        let starsHTML = '';
-        for (let i = 0.5; i <= 5; i += 0.5) {
-            if (i <= rating) {
-                starsHTML += '<span class="star active">★</span>';
-            } else {
-                starsHTML += '<span class="star">☆</span>';
-            }
-        }
-        return starsHTML;
     }
 
     // LISTA ALFABÉTICA CON ENLACES A FICHAS
