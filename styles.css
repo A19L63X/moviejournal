@@ -289,12 +289,6 @@ textarea#review {
   color: #fff;
 }
 
-/* NUEVO ESTILO PARA WIKIPEDIA */
-.search-link.wikipedia {
-  background: linear-gradient(135deg, #3366cc, #6699ff);
-  color: #fff;
-}
-
 .search-link:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
