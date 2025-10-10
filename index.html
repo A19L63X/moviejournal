@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Movies Diaries</title>
-    <link rel="stylesheet" href="styles.css?v=4.0">
+    <link rel="stylesheet" href="styles.css?v=4.1">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>🎬 My Movies Diaries 🎬</h1>
-            <!-- Subtítulo eliminado -->
         </header>
 
         <!-- Formulario para agregar películas -->
@@ -28,7 +27,6 @@
                     <a id="tmdbSearch" href="#" target="_blank" class="search-link tmdb">
                         <span>🔍 Buscar en TMDB</span>
                     </a>
-                    <!-- NUEVO BOTÓN WIKIPEDIA -->
                     <a id="wikipediaSearch" href="#" target="_blank" class="search-link wikipedia">
                         <span>🔍 Buscar en Wikipedia</span>
                     </a>
@@ -60,73 +58,67 @@
                     </div>
                 </div>
 
-                <!-- Tercera fila: Género, Duración, País, Idioma -->
-                <div class="form-row">
-                    <div class="form-group medium">
-                        <label for="genre">Género:*</label>
-                        <div class="genre-checkboxes">
-                            <div class="checkbox-row">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Acción"> Acción
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Aventura"> Aventura
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Comedia"> Comedia
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Drama"> Drama
-                                </label>
-                            </div>
-                            <div class="checkbox-row">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Ciencia Ficción"> Ciencia Ficción
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Fantasía"> Fantasía
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Terror"> Terror
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Romance"> Romance
-                                </label>
-                            </div>
-                            <div class="checkbox-row">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Suspense"> Suspense
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Animación"> Animación
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Documental"> Documental
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Musical"> Musical
-                                </label>
-                            </div>
-                            <div class="checkbox-row">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Bélico"> Bélico
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Western"> Western
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Biográfico"> Biográfico
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Histórico"> Histórico
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="genre" value="Otro"> Otro
-                                </label>
-                            </div>
-                        </div>
-                        <input type="hidden" id="genre" required>
+                <!-- Tercera fila: Género (checkboxes horizontales) -->
+                <div class="form-group">
+                    <label for="genre">Género:*</label>
+                    <div class="genre-checkboxes-horizontal">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Acción"> Acción
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Aventura"> Aventura
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Comedia"> Comedia
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Drama"> Drama
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Ciencia Ficción"> Ciencia ficción
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Fantasía"> Fantasía
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Terror"> Terror
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Romance"> Romance
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Suspense"> Suspense
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Animación"> Animación
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Documental"> Documental
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Musical"> Musical
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Bélico"> Bélico
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Western"> Western
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Biográfico"> Biográfico
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Histórico"> Histórico
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Otro"> Otro
+                        </label>
                     </div>
+                    <input type="hidden" id="genre" required>
+                </div>
+
+                <!-- Cuarta fila: Duración, País, Idioma -->
+                <div class="form-row">
                     <div class="form-group small">
                         <label for="duration">Duración (min):*</label>
                         <input type="number" id="duration" min="1" max="500" required>
@@ -141,7 +133,7 @@
                     </div>
                 </div>
 
-                <!-- Cuarta fila: Valoración y Póster -->
+                <!-- Quinta fila: Valoración y Póster -->
                 <div class="form-row">
                     <div class="form-group compact">
                         <label>Valoración:*</label>
@@ -244,6 +236,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=4.0"></script>
+    <script src="script.js?v=4.1"></script>
 </body>
 </html>
