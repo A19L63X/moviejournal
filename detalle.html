@@ -134,30 +134,73 @@
                     </div>
 
                     <!-- Campos adicionales en edición -->
-                    <div class="form-row">
-                        <div class="form-group medium">
-                            <label for="editGenre">Género:*</label>
-                            <select id="editGenre" required>
-                                <option value="">Selecciona un género</option>
-                                <option value="Acción">Acción</option>
-                                <option value="Aventura">Aventura</option>
-                                <option value="Comedia">Comedia</option>
-                                <option value="Drama">Drama</option>
-                                <option value="Ciencia Ficción">Ciencia Ficción</option>
-                                <option value="Fantasía">Fantasía</option>
-                                <option value="Terror">Terror</option>
-                                <option value="Romance">Romance</option>
-                                <option value="Suspense">Suspense</option>
-                                <option value="Animación">Animación</option>
-                                <option value="Documental">Documental</option>
-                                <option value="Musical">Musical</option>
-                                <option value="Bélico">Bélico</option>
-                                <option value="Western">Western</option>
-                                <option value="Biográfico">Biográfico</option>
-                                <option value="Histórico">Histórico</option>
-                                <option value="Otro">Otro</option>
-                            </select>
+                    <div class="form-group medium">
+                        <label for="editGenre">Género:*</label>
+                        <div class="genre-checkboxes">
+                            <div class="checkbox-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Acción"> Acción
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Aventura"> Aventura
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Comedia"> Comedia
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Drama"> Drama
+                                </label>
+                            </div>
+                            <div class="checkbox-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Ciencia Ficción"> Ciencia Ficción
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Fantasía"> Fantasía
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Terror"> Terror
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Romance"> Romance
+                                </label>
+                            </div>
+                            <div class="checkbox-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Suspense"> Suspense
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Animación"> Animación
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Documental"> Documental
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Musical"> Musical
+                                </label>
+                            </div>
+                            <div class="checkbox-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Bélico"> Bélico
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Western"> Western
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Biográfico"> Biográfico
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Histórico"> Histórico
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="editGenre" value="Otro"> Otro
+                                </label>
+                            </div>
                         </div>
+                        <input type="hidden" id="editGenre" required>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-group small">
                             <label for="editDuration">Duración (min):*</label>
                             <input type="number" id="editDuration" min="1" max="500" required>
