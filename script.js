@@ -26,6 +26,7 @@ class MovieManager {
         }
 
         this.setupEventListeners();
+        this.initGenreCheckboxes();
         await this.loadMovies();
     }
 
@@ -105,22 +106,42 @@ class MovieManager {
         });
     }
 
-    // Actualizar enlaces de búsqueda IMDB y TMDB
+    // Inicializar checkboxes de género
+    initGenreCheckboxes() {
+        const checkboxes = document.querySelectorAll('input[name="genre"]');
+        const hiddenInput = document.getElementById('genre');
+        
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const selectedGenres = Array.from(document.querySelectorAll('input[name="genre"]:checked'))
+                    .map(cb => cb.value)
+                    .join(', ');
+                hiddenInput.value = selectedGenres;
+            });
+        });
+    }
+
+    // Actualizar enlaces de búsqueda IMDB, TMDB y Wikipedia
     updateSearchLinks(title) {
         const imdbLink = document.getElementById('imdbSearch');
         const tmdbLink = document.getElementById('tmdbSearch');
+        const wikipediaLink = document.getElementById('wikipediaSearch');
         
         if (title && title.trim() !== '') {
             const encodedTitle = encodeURIComponent(title.trim());
             imdbLink.href = `https://www.imdb.com/find?q=${encodedTitle}`;
             tmdbLink.href = `https://www.themoviedb.org/search?query=${encodedTitle}`;
+            wikipediaLink.href = `https://en.wikipedia.org/w/index.php?search=${encodedTitle}`;
             imdbLink.style.opacity = '1';
             tmdbLink.style.opacity = '1';
+            wikipediaLink.style.opacity = '1';
         } else {
             imdbLink.href = '#';
             tmdbLink.href = '#';
+            wikipediaLink.href = '#';
             imdbLink.style.opacity = '0.6';
             tmdbLink.style.opacity = '0.6';
+            wikipediaLink.style.opacity = '0.6';
         }
     }
 
@@ -230,6 +251,12 @@ class MovieManager {
         document.getElementById('imagePreview').innerHTML = '';
         document.getElementById('rating').value = '0';
         this.updateSearchLinks('');
+        
+        // Limpiar checkboxes de género
+        document.querySelectorAll('input[name="genre"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        document.getElementById('genre').value = '';
     }
 
     getFormData() {
