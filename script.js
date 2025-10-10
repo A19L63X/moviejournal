@@ -374,7 +374,10 @@ class MovieManager {
         moviesList.innerHTML = filteredMovies.map(movie => `
             <div class="movie-card">
                 ${movie.poster ? 
-                    `<img src="${movie.poster}" class="movie-poster" alt="${movie.title}" onerror="this.style.display='none'">` : 
+                    `<div class="poster-container">
+                        <img src="${movie.poster}" class="movie-poster" alt="${movie.title}" 
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'no-poster\\'>🎬 Sin póster</div>'">
+                    </div>` : 
                     '<div class="no-poster">🎬 Sin póster</div>'
                 }
                 <div class="movie-title">${this.escapeHtml(movie.title)}</div>
