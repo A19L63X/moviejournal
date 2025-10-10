@@ -32,34 +32,36 @@
             </div>
 
             <form id="movieForm">
-                <!-- Campos principales -->
+                <!-- Primera fila: Título y Año -->
                 <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group large">
                         <label for="title">Película:*</label>
                         <input type="text" id="title" required>
                     </div>
-                    <div class="form-group">
-                        <label for="year">Año de Estreno:*</label>
+                    <div class="form-group small">
+                        <label for="year">Año:*</label>
                         <input type="number" id="year" min="1900" max="2030" required>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="director">Director:*</label>
-                    <input type="text" id="director" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="cast">Reparto:*</label>
-                    <input type="text" id="cast" required placeholder="Lista de actores principales separados por comas">
-                </div>
-
-                <!-- Campos adicionales -->
+                <!-- Segunda fila: Director y Reparto -->
                 <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group medium">
+                        <label for="director">Director:*</label>
+                        <input type="text" id="director" required>
+                    </div>
+                    <div class="form-group large">
+                        <label for="cast">Reparto:*</label>
+                        <input type="text" id="cast" required placeholder="Actores separados por comas">
+                    </div>
+                </div>
+
+                <!-- Tercera fila: Género, Duración, País, Idioma -->
+                <div class="form-row">
+                    <div class="form-group medium">
                         <label for="genre">Género:*</label>
                         <select id="genre" required>
-                            <option value="">Selecciona un género</option>
+                            <option value="">Selecciona género</option>
                             <option value="Acción">Acción</option>
                             <option value="Aventura">Aventura</option>
                             <option value="Comedia">Comedia</option>
@@ -79,102 +81,100 @@
                             <option value="Otro">Otro</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group small">
                         <label for="duration">Duración (min):*</label>
                         <input type="number" id="duration" min="1" max="500" required>
                     </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group medium">
                         <label for="country">País:*</label>
                         <input type="text" id="country" required>
                     </div>
-                    <div class="form-group">
-                        <label for="language">Idioma Original:*</label>
+                    <div class="form-group medium">
+                        <label for="language">Idioma:*</label>
                         <input type="text" id="language" required>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="budget">Presupuesto (opcional):</label>
-                    <input type="text" id="budget" placeholder="Ej: 50 millones USD">
+                <!-- Cuarta fila: Valoración y Póster -->
+                <div class="form-row">
+                    <div class="form-group compact">
+                        <label>Valoración:*</label>
+                        <div class="rating-container">
+                            <div class="stars" id="stars">
+                                <span class="star half" data-value="0.5">☆</span>
+                                <span class="star full" data-value="1">☆</span>
+                                <span class="star half" data-value="1.5">☆</span>
+                                <span class="star full" data-value="2">☆</span>
+                                <span class="star half" data-value="2.5">☆</span>
+                                <span class="star full" data-value="3">☆</span>
+                                <span class="star half" data-value="3.5">☆</span>
+                                <span class="star full" data-value="4">☆</span>
+                                <span class="star half" data-value="4.5">☆</span>
+                                <span class="star full" data-value="5">☆</span>
+                            </div>
+                            <div class="rating-display">
+                                <span id="ratingValue">0/5</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="rating" value="0">
+                    </div>
+                    <div class="form-group compact">
+                        <label for="poster">Póster:</label>
+                        <div class="drop-zone" id="dropZone">
+                            <span>Arrastra imagen o haz clic</span>
+                            <input type="file" id="poster" accept="image/*" hidden>
+                        </div>
+                        <div id="imagePreview"></div>
+                    </div>
                 </div>
 
+                <!-- Campos adicionales en filas compactas -->
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="studio">Estudio de producción:</label>
+                    <div class="form-group medium">
+                        <label for="budget">Presupuesto:</label>
+                        <input type="text" id="budget" placeholder="Ej: 50 millones USD">
+                    </div>
+                    <div class="form-group medium">
+                        <label for="studio">Estudio:</label>
                         <input type="text" id="studio" placeholder="Ej: Warner Bros">
                     </div>
-                    <div class="form-group">
-                        <label for="boxOffice">Taquilla mundial:</label>
+                    <div class="form-group medium">
+                        <label for="boxOffice">Taquilla:</label>
                         <input type="text" id="boxOffice" placeholder="Ej: 500 millones USD">
                     </div>
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group medium">
                         <label for="screenplay">Guionista:</label>
                         <input type="text" id="screenplay" placeholder="Escritor del guión">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group medium">
                         <label for="music">Música:</label>
-                        <input type="text" id="music" placeholder="Compositor de la banda sonora">
+                        <input type="text" id="music" placeholder="Compositor">
+                    </div>
+                    <div class="form-group medium">
+                        <label for="cinematography">Fotografía:</label>
+                        <input type="text" id="cinematography" placeholder="Director de fotografía">
                     </div>
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="cinematography">Fotografía:</label>
-                        <input type="text" id="cinematography" placeholder="Director de fotografía">
-                    </div>
-                    <div class="form-group">
+                    <div class="form-group large">
                         <label for="awards">Premios:</label>
                         <input type="text" id="awards" placeholder="Ej: 5 Oscars, 3 Globos de Oro">
                     </div>
                 </div>
 
-                <!-- SISTEMA DE MEDIAS ESTRELLAS -->
-                <div class="form-group">
-                    <label>Valoración:*</label>
-                    <div class="rating-container">
-                        <div class="stars" id="stars">
-                            <!-- 10 elementos para medias estrellas -->
-                            <span class="star half" data-value="0.5">☆</span>
-                            <span class="star full" data-value="1">☆</span>
-                            <span class="star half" data-value="1.5">☆</span>
-                            <span class="star full" data-value="2">☆</span>
-                            <span class="star half" data-value="2.5">☆</span>
-                            <span class="star full" data-value="3">☆</span>
-                            <span class="star half" data-value="3.5">☆</span>
-                            <span class="star full" data-value="4">☆</span>
-                            <span class="star half" data-value="4.5">☆</span>
-                            <span class="star full" data-value="5">☆</span>
-                        </div>
-                        <div class="rating-display">
-                            <span id="ratingValue">0/5</span>
-                        </div>
-                    </div>
-                    <input type="hidden" id="rating" value="0">
-                </div>
-
+                <!-- Descripción y Reseña -->
                 <div class="form-group">
                     <label for="description">Descripción:*</label>
-                    <textarea id="description" rows="4" required></textarea>
+                    <textarea id="description" rows="3" required></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="review">Reseña Personal:</label>
-                    <textarea id="review" rows="4" placeholder="Escribe tus impresiones sobre la película..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="poster">Póster de la Película:</label>
-                    <div class="drop-zone" id="dropZone">
-                        <span>Arrastra la imagen aquí o haz clic para seleccionar</span>
-                        <input type="file" id="poster" accept="image/*" hidden>
-                    </div>
-                    <div id="imagePreview"></div>
+                    <textarea id="review" rows="3" placeholder="Escribe tus impresiones personales sobre la película..."></textarea>
                 </div>
 
                 <button type="submit">Agregar Película</button>
