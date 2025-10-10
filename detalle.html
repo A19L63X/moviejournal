@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle de Película - My Movies Diaries</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2.0">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -92,6 +92,11 @@
                 <div class="description-section">
                     <h3>Sinopsis</h3>
                     <p id="detailDescription" class="detail-description"></p>
+                </div>
+
+                <div class="review-section">
+                    <h3>Mi Reseña</h3>
+                    <p id="detailReview" class="detail-review"></p>
                 </div>
 
                 <div class="action-buttons">
@@ -237,6 +242,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="editReview">Reseña Personal:</label>
+                        <textarea id="editReview" rows="4" placeholder="Escribe tus impresiones sobre la película..."></textarea>
+                    </div>
+
+                    <div class="form-group">
                         <label for="editPoster">Póster de la Película:</label>
                         <div class="drop-zone" id="editDropZone">
                             <span>Arrastra una nueva imagen aquí o haz clic para seleccionar</span>
@@ -260,6 +270,6 @@
         </div>
     </div>
 
-    <script src="detalle.js"></script>
+    <script src="detalle.js?v=2.0"></script>
 </body>
 </html>
