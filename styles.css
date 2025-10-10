@@ -145,9 +145,7 @@ input#cast {
   background: var(--pastel-orange);
 }
 
-select#genre {
-  background: var(--pastel-pink);
-}
+/* select#genre eliminado porque ahora usamos checkboxes */
 
 input#duration {
   background: var(--pastel-teal);
@@ -197,7 +195,7 @@ textarea#review {
   text-decoration: none;
   margin-top: 20px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255,255,255,0.3);
   backdrop-filter: blur(10px);
   font-weight: 600;
 }
@@ -289,6 +287,11 @@ textarea#review {
   color: #fff;
 }
 
+.search-link.wikipedia {
+  background: linear-gradient(135deg, #3366cc, #264d99);
+  color: #fff;
+}
+
 .search-link:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
@@ -346,6 +349,57 @@ select {
   background-repeat: no-repeat;
   background-position: right 15px center;
   background-size: 12px;
+}
+
+/* ===== CHECKBOXES DE GÉNERO ===== */
+.genre-checkboxes {
+  background: var(--pastel-purple);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--primary-light);
+}
+
+.checkbox-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.checkbox-row:last-child {
+  margin-bottom: 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  background: white;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-sm);
+  flex: 1;
+  min-width: 140px;
+}
+
+.checkbox-label:hover {
+  background: var(--pastel-blue);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+}
+
+.checkbox-label input[type="checkbox"]:checked + span {
+  font-weight: 700;
+  color: var(--primary);
 }
 
 /* ===== SISTEMA DE ESTRELLAS MEJORADO ===== */
@@ -1352,6 +1406,16 @@ textarea {
   .search-link {
     width: 200px;
     justify-content: center;
+  }
+
+  /* Checkboxes responsive */
+  .checkbox-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .checkbox-label {
+    min-width: auto;
   }
 }
 
