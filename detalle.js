@@ -19,6 +19,7 @@ class MovieDetail {
 
         await this.loadMovie();
         this.setupEventListeners();
+        this.initEditGenreCheckboxes();
     }
 
     async loadMovie() {
@@ -115,6 +116,21 @@ class MovieDetail {
         return starsHTML;
     }
 
+    // Inicializar checkboxes de género en edición
+    initEditGenreCheckboxes() {
+        const checkboxes = document.querySelectorAll('input[name="editGenre"]');
+        const hiddenInput = document.getElementById('editGenre');
+        
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const selectedGenres = Array.from(document.querySelectorAll('input[name="editGenre"]:checked'))
+                    .map(cb => cb.value)
+                    .join(', ');
+                hiddenInput.value = selectedGenres;
+            });
+        });
+    }
+
     prepareEditForm() {
         // Llenar formulario de edición con datos actuales
         document.getElementById('editId').value = this.movie.id;
@@ -122,7 +138,14 @@ class MovieDetail {
         document.getElementById('editDirector').value = this.movie.director;
         document.getElementById('editCast').value = this.movie.movie_cast;
         document.getElementById('editYear').value = this.movie.year;
+        
+        // Cargar géneros en checkboxes
+        const currentGenres = this.movie.genre.split(',').map(g => g.trim());
+        document.querySelectorAll('input[name="editGenre"]').forEach(checkbox => {
+            checkbox.checked = currentGenres.includes(checkbox.value);
+        });
         document.getElementById('editGenre').value = this.movie.genre;
+        
         document.getElementById('editDuration').value = this.movie.duration;
         document.getElementById('editCountry').value = this.movie.country;
         document.getElementById('editLanguage').value = this.movie.language;
