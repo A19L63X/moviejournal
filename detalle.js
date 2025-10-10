@@ -138,14 +138,6 @@ class MovieDetail {
         document.getElementById('editDirector').value = this.movie.director;
         document.getElementById('editCast').value = this.movie.movie_cast;
         document.getElementById('editYear').value = this.movie.year;
-        
-        // Cargar géneros en checkboxes
-        const currentGenres = this.movie.genre.split(',').map(g => g.trim());
-        document.querySelectorAll('input[name="editGenre"]').forEach(checkbox => {
-            checkbox.checked = currentGenres.includes(checkbox.value);
-        });
-        document.getElementById('editGenre').value = this.movie.genre;
-        
         document.getElementById('editDuration').value = this.movie.duration;
         document.getElementById('editCountry').value = this.movie.country;
         document.getElementById('editLanguage').value = this.movie.language;
@@ -158,6 +150,13 @@ class MovieDetail {
         document.getElementById('editAwards').value = this.movie.awards || '';
         document.getElementById('editDescription').value = this.movie.description;
         document.getElementById('editReview').value = this.movie.review || '';
+        
+        // Configurar géneros en checkboxes
+        const currentGenres = this.movie.genre.split(',').map(g => g.trim());
+        document.querySelectorAll('input[name="editGenre"]').forEach(checkbox => {
+            checkbox.checked = currentGenres.includes(checkbox.value);
+        });
+        document.getElementById('editGenre').value = this.movie.genre;
         
         // Configurar estrellas
         this.setEditRating(this.movie.rating);
