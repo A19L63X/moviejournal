@@ -80,6 +80,7 @@ class MovieDetail {
         document.getElementById('detailCinematography').textContent = this.movie.cinematography || 'No especificado';
         document.getElementById('detailAwards').textContent = this.movie.awards || 'No especificado';
         document.getElementById('detailDescription').textContent = this.movie.description;
+        document.getElementById('detailReview').textContent = this.movie.review || 'Sin reseña personal';
 
         // Mostrar valoración con medias estrellas
         const ratingElement = document.getElementById('detailRating');
@@ -132,6 +133,7 @@ class MovieDetail {
         document.getElementById('editCinematography').value = this.movie.cinematography || '';
         document.getElementById('editAwards').value = this.movie.awards || '';
         document.getElementById('editDescription').value = this.movie.description;
+        document.getElementById('editReview').value = this.movie.review || '';
         
         // Configurar estrellas
         this.setEditRating(this.movie.rating);
@@ -294,6 +296,7 @@ class MovieDetail {
         const year = document.getElementById('editYear').value;
         const rating = this.currentRating;
         const description = document.getElementById('editDescription').value.trim();
+        const review = document.getElementById('editReview').value.trim();
         
         const genre = document.getElementById('editGenre').value;
         const duration = document.getElementById('editDuration').value;
@@ -336,10 +339,11 @@ class MovieDetail {
         return {
             title,
             director,
-            movie_cast: cast,  // Cambiado a movie_cast para Supabase
+            movie_cast: cast,
             year: parseInt(year),
             rating,
             description,
+            review: review || 'Sin reseña personal',
             genre,
             duration: parseInt(duration),
             country,
