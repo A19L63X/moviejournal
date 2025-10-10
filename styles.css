@@ -15,6 +15,16 @@
   --info: #118ab2;
   --info-light: #15a1cf;
   
+  /* Colores pastel para campos */
+  --pastel-blue: #e3f2fd;
+  --pastel-green: #e8f5e8;
+  --pastel-purple: #f3e5f5;
+  --pastel-orange: #fff3e0;
+  --pastel-pink: #fce4ec;
+  --pastel-yellow: #fff9c4;
+  --pastel-teal: #e0f2f1;
+  --pastel-lavender: #f3e5f5;
+  
   /* Colores neutros */
   --dark: #2d3748;
   --dark-light: #4a5568;
@@ -93,16 +103,85 @@ header h1 {
   letter-spacing: -1px;
 }
 
-.subtitle {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1.3em;
-  font-weight: 300;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  padding: 12px 30px;
-  border-radius: 50px;
-  display: inline-block;
-  border: 1px solid rgba(255,255,255,0.2);
+/* ===== CAMPOS CON COLORES PASTEL ===== */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: 18px 20px;
+  border: 2px solid var(--gray-light);
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--pastel-blue);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  box-shadow: var(--shadow-sm);
+  color: var(--dark);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+  background: var(--pastel-green);
+}
+
+/* Colores específicos para diferentes tipos de campos */
+input#title {
+  background: var(--pastel-yellow);
+}
+
+input#director {
+  background: var(--pastel-purple);
+}
+
+input#cast {
+  background: var(--pastel-orange);
+}
+
+select#genre {
+  background: var(--pastel-pink);
+}
+
+input#duration {
+  background: var(--pastel-teal);
+}
+
+input#country {
+  background: var(--pastel-blue);
+}
+
+input#language {
+  background: var(--pastel-green);
+}
+
+input#budget,
+input#studio,
+input#boxOffice {
+  background: var(--pastel-purple);
+}
+
+input#screenplay,
+input#music,
+input#cinematography {
+  background: var(--pastel-orange);
+}
+
+input#awards {
+  background: var(--pastel-yellow);
+}
+
+textarea#description {
+  background: var(--pastel-blue);
+}
+
+textarea#review {
+  background: var(--pastel-green);
 }
 
 /* ===== BOTÓN VOLVER MEJORADO ===== */
@@ -226,9 +305,28 @@ header h1 {
 }
 
 .form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.form-group.large {
+  flex: 3;
+}
+
+.form-group.medium {
+  flex: 2;
+}
+
+.form-group.small {
+  flex: 1;
+  min-width: 120px;
+}
+
+.form-group.compact {
+  flex: 1;
+  min-width: 250px;
 }
 
 label {
@@ -239,32 +337,6 @@ label {
   font-size: 1em;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-/* ===== CAMPOS DE ENTRADA MODERNOS ===== */
-input[type="text"],
-input[type="number"],
-textarea,
-select {
-  width: 100%;
-  padding: 18px 20px;
-  border: 2px solid var(--gray-light);
-  border-radius: var(--border-radius);
-  font-size: 16px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: var(--lighter);
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  box-shadow: var(--shadow-sm);
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-  transform: translateY(-2px);
 }
 
 select {
@@ -285,6 +357,8 @@ select {
   padding: 20px;
   border-radius: var(--border-radius);
   border: 2px dashed var(--primary-light);
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .stars {
@@ -357,6 +431,8 @@ select {
   background: rgba(102, 126, 234, 0.05);
   position: relative;
   overflow: hidden;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .drop-zone::before {
@@ -503,7 +579,7 @@ button:active {
   border-radius: 50px;
   font-size: 16px;
   transition: all 0.3s ease;
-  background: white;
+  background: var(--pastel-blue);
   box-shadow: var(--shadow-sm);
 }
 
@@ -511,6 +587,7 @@ button:active {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
   transform: translateY(-2px);
+  background: var(--pastel-green);
 }
 
 #moviesCount {
@@ -525,22 +602,25 @@ button:active {
   border: 2px solid rgba(255,255,255,0.2);
 }
 
-/* ===== CUADRÍCULA DE PELÍCULAS MODERNA ===== */
+/* ===== CUADRÍCULA DE PELÍCULAS - 4 POR FILA ===== */
 .movies-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 .movie-card {
   background: white;
   border-radius: var(--border-radius);
-  padding: 25px;
+  padding: 20px;
   box-shadow: var(--shadow-md);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   border: 1px solid var(--gray-light);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .movie-card::before {
@@ -560,7 +640,7 @@ button:active {
 
 .movie-poster {
   width: 100%;
-  height: 220px;
+  height: 280px;
   object-fit: cover;
   border-radius: var(--border-radius-sm);
   margin-bottom: 15px;
@@ -573,10 +653,10 @@ button:active {
 }
 
 .movie-title {
-  font-size: 1.4em;
+  font-size: 1.2em;
   font-weight: 700;
   color: var(--primary);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   line-height: 1.3;
   background: var(--gradient-primary);
   -webkit-background-clip: text;
@@ -584,86 +664,51 @@ button:active {
   background-clip: text;
 }
 
-.movie-info-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-  margin-bottom: 15px;
-}
-
-.movie-info {
-  color: var(--dark-light);
-  font-size: 0.95em;
+.movie-year-rating {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--gray-light);
-}
-
-.movie-info:last-child {
-  border-bottom: none;
-}
-
-.movie-info strong {
-  color: var(--primary);
-}
-
-.movie-rating {
-  display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 18px 0;
-  padding: 15px;
-  background: rgba(102, 126, 234, 0.05);
-  border-radius: var(--border-radius-sm);
-  border-left: 4px solid var(--primary);
+  margin: 10px 0;
 }
 
-.stars-small {
-  display: flex;
-  gap: 2px;
+.movie-year {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1em;
 }
 
-.stars-small .star {
-  font-size: 18px;
-  cursor: default;
-}
-
-.rating-small {
-  background: var(--gradient-primary);
-  color: white;
+.rating-number {
+  background: var(--gradient-warning);
+  color: black;
   padding: 6px 12px;
   border-radius: 20px;
-  font-size: 0.85em;
   font-weight: 700;
+  font-size: 0.9em;
   box-shadow: var(--shadow-sm);
 }
 
 .movie-description {
   color: var(--dark-light);
-  font-size: 0.9em;
-  margin-top: 15px;
-  line-height: 1.5;
+  font-size: 0.85em;
+  line-height: 1.4;
+  margin: 10px 0;
+  flex-grow: 1;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  padding: 12px;
-  background: rgba(102, 126, 234, 0.03);
-  border-radius: var(--border-radius-sm);
-  border-left: 3px solid var(--primary-light);
 }
 
 .movie-actions {
   display: flex;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 .view-btn {
   background: var(--gradient-success);
   color: white;
-  padding: 12px 20px;
+  padding: 10px 15px;
   border-radius: var(--border-radius);
   border: none;
   cursor: pointer;
@@ -684,7 +729,7 @@ button:active {
 .delete-btn {
   background: var(--gradient-accent);
   color: white;
-  padding: 12px 20px;
+  padding: 10px 15px;
   border-radius: var(--border-radius);
   border: none;
   cursor: pointer;
@@ -723,7 +768,7 @@ button:active {
 
 .movie-header {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: 40px;
   margin-bottom: 40px;
 }
@@ -742,7 +787,7 @@ button:active {
 }
 
 .detail-title {
-  font-size: 3em;
+  font-size: 2.5em;
   color: var(--primary);
   margin-bottom: 20px;
   line-height: 1.1;
@@ -771,7 +816,7 @@ button:active {
 
 .detail-rating-stars .star {
   cursor: default;
-  font-size: 32px;
+  font-size: 28px;
 }
 
 .rating-number {
@@ -832,7 +877,7 @@ button:active {
   display: flex;
   flex-direction: column;
   padding: 15px;
-  background: white;
+  background: var(--pastel-blue);
   border-radius: var(--border-radius-sm);
   border-left: 4px solid var(--primary);
   box-shadow: var(--shadow-sm);
@@ -844,6 +889,7 @@ button:active {
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
   border-left-color: var(--accent);
+  background: var(--pastel-green);
 }
 
 .info-item strong {
@@ -873,7 +919,35 @@ button:active {
   font-size: 1.1em;
   line-height: 1.7;
   color: var(--dark);
-  background: white;
+  background: var(--pastel-blue);
+  padding: 25px;
+  border-radius: var(--border-radius);
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-light);
+}
+
+/* ===== SECCIÓN RESEÑA ===== */
+.review-section {
+  margin-bottom: 40px;
+}
+
+.review-section h3 {
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.detail-review {
+  font-size: 1.1em;
+  line-height: 1.7;
+  color: var(--dark);
+  background: var(--pastel-green);
   padding: 25px;
   border-radius: var(--border-radius);
   border-left: 4px solid var(--primary);
@@ -1033,7 +1107,7 @@ button:active {
 
 .no-poster {
   width: 100%;
-  height: 220px;
+  height: 280px;
   background: linear-gradient(135deg, var(--gray-light), #d1d5db);
   display: flex;
   align-items: center;
@@ -1084,17 +1158,98 @@ button:active {
   background: var(--gradient-primary);
 }
 
+/* ===== FORMULARIO COMPACTO ===== */
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.form-group.large {
+  flex: 3;
+}
+
+.form-group.medium {
+  flex: 2;
+}
+
+.form-group.small {
+  flex: 1;
+  min-width: 120px;
+}
+
+.form-group.compact {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Campos pequeños para año y duración */
+.form-group.small input,
+.form-group.small select {
+  padding: 12px 15px;
+}
+
+/* Contenedores compactos para valoración y póster */
+.form-group.compact .rating-container {
+  max-width: 100%;
+  margin: 0;
+  padding: 15px;
+}
+
+.form-group.compact .drop-zone {
+  max-width: 100%;
+  padding: 30px 20px;
+  margin: 0;
+}
+
+.form-group.compact .drop-zone::before {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+/* Estrellas más compactas */
+.form-group.compact .stars {
+  padding: 8px;
+  justify-content: center;
+}
+
+.form-group.compact .star {
+  font-size: 28px;
+  width: 20px;
+}
+
+/* Preview de imagen más pequeño */
+#imagePreview {
+  margin-top: 10px;
+}
+
+.preview-image {
+  max-width: 150px;
+  max-height: 150px;
+}
+
+/* Textareas más compactos */
+textarea {
+  min-height: 80px;
+  padding: 12px 15px;
+}
+
 /* ===== DISEÑO RESPONSIVE ===== */
 @media (max-width: 1200px) {
   .container {
     max-width: 100%;
     padding: 0 20px;
   }
+  
+  .movies-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
   .movies-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
   
   header h1 {
@@ -1112,7 +1267,21 @@ button:active {
   }
   
   .form-row {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group.large,
+  .form-group.medium,
+  .form-group.small,
+  .form-group.compact {
+    flex: 1;
+    width: 100%;
+  }
+  
+  .form-group.compact .rating-container,
+  .form-group.compact .drop-zone {
+    max-width: 100%;
   }
   
   .detail-info-grid {
@@ -1178,6 +1347,10 @@ button:active {
     font-size: 2.2em;
   }
   
+  .movies-grid {
+    grid-template-columns: 1fr;
+  }
+  
   .form-container, .movies-container, .movie-detail-container {
     padding: 20px;
   }
@@ -1221,204 +1394,4 @@ button:active {
     padding: 10px 15px;
     font-size: 0.9em;
   }
-}
-/* ===== AJUSTES PARA CAMPOS DE VALORACIÓN Y PÓSTER ===== */
-.rating-container {
-    max-width: 500px;
-}
-
-.drop-zone {
-    max-width: 500px;
-}
-
-/* ===== TARJETA DE PELÍCULA SIMPLIFICADA ===== */
-.movie-card {
-    display: flex;
-    flex-direction: column;
-    height: auto;
-}
-
-.movie-card .movie-info-grid,
-.movie-card .movie-rating .stars-small {
-    display: none;
-}
-
-.movie-card .movie-rating {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-}
-
-.movie-card .movie-rating .rating-small {
-    background: var(--gradient-primary);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.9em;
-    font-weight: 700;
-    box-shadow: var(--shadow-sm);
-}
-
-.movie-card .movie-year {
-    color: var(--dark-light);
-    font-weight: 600;
-    text-align: center;
-    margin: 5px 0;
-}
-
-.movie-card .movie-description {
-    color: var(--dark-light);
-    font-size: 0.9em;
-    line-height: 1.4;
-    margin: 10px 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* ===== ESTILOS PARA LA RESEÑA EN DETALLE ===== */
-.review-section {
-    margin-bottom: 40px;
-}
-
-.review-section h3 {
-    color: var(--primary);
-    margin-bottom: 20px;
-    font-size: 1.8em;
-    font-weight: 700;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.detail-review {
-    font-size: 1.1em;
-    line-height: 1.7;
-    color: var(--dark);
-    background: white;
-    padding: 25px;
-    border-radius: var(--border-radius);
-    border-left: 4px solid var(--primary);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--gray-light);
-}
-/* ===== FORMULARIO COMPACTO ===== */
-.form-row {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-    align-items: flex-start;
-}
-
-.form-group.large {
-    flex: 3;
-}
-
-.form-group.medium {
-    flex: 2;
-}
-
-.form-group.small {
-    flex: 1;
-    min-width: 120px;
-}
-
-.form-group.compact {
-    flex: 1;
-    min-width: 250px;
-}
-
-/* Campos pequeños para año y duración */
-.form-group.small input,
-.form-group.small select {
-    padding: 12px 15px;
-}
-
-/* Contenedores compactos para valoración y póster */
-.form-group.compact .rating-container {
-    max-width: 100%;
-    margin: 0;
-    padding: 15px;
-}
-
-.form-group.compact .drop-zone {
-    max-width: 100%;
-    padding: 30px 20px;
-    margin: 0;
-}
-
-.form-group.compact .drop-zone::before {
-    font-size: 2em;
-    margin-bottom: 10px;
-}
-
-/* Estrellas más compactas */
-.form-group.compact .stars {
-    padding: 8px;
-    justify-content: center;
-}
-
-.form-group.compact .star {
-    font-size: 28px;
-    width: 20px;
-}
-
-/* Preview de imagen más pequeño */
-#imagePreview {
-    margin-top: 10px;
-}
-
-.preview-image {
-    max-width: 150px;
-    max-height: 150px;
-}
-
-/* Textareas más compactos */
-textarea {
-    min-height: 80px;
-    padding: 12px 15px;
-}
-
-/* Ajustes responsive para el formulario compacto */
-@media (max-width: 768px) {
-    .form-row {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .form-group.large,
-    .form-group.medium,
-    .form-group.small,
-    .form-group.compact {
-        flex: 1;
-        width: 100%;
-    }
-    
-    .form-group.compact .rating-container,
-    .form-group.compact .drop-zone {
-        max-width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .form-row {
-        gap: 12px;
-    }
-    
-    .form-group.compact .drop-zone {
-        padding: 20px 15px;
-    }
-    
-    .form-group.compact .star {
-        font-size: 24px;
-    }
-    
-    input[type="text"],
-    input[type="number"],
-    textarea,
-    select {
-        padding: 12px 15px;
-    }
 }
