@@ -94,6 +94,7 @@ class MovieDetail {
         if (this.movie.poster) {
             posterImg.src = this.movie.poster;
             posterImg.style.display = 'block';
+            posterImg.style.background = 'linear-gradient(135deg, var(--gray-light), #d1d5db)';
         } else {
             posterImg.style.display = 'none';
         }
