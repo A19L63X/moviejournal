@@ -124,7 +124,24 @@ class MovieManager {
 
     // Llenar select de países
     fillCountrySelect() {
-        llenarSelectPaises('country');
+        const countrySelect = document.getElementById('country');
+        if (!countrySelect) return;
+
+        // Ordenar países por nombre
+        const paisesOrdenados = [...paises].sort((a, b) => 
+            a.nombre.localeCompare(b.nombre, 'es')
+        );
+
+        // Limpiar select
+        countrySelect.innerHTML = '<option value="">Selecciona un país</option>';
+
+        // Llenar con opciones
+        paisesOrdenados.forEach(pais => {
+            const option = document.createElement('option');
+            option.value = pais.iso;
+            option.textContent = pais.nombre;
+            countrySelect.appendChild(option);
+        });
     }
 
     // Actualizar enlaces de búsqueda IMDB, TMDB, Wikipedia y Filmaffinity
@@ -286,8 +303,9 @@ class MovieManager {
         // Campos adicionales
         const genre = document.getElementById('genre').value;
         const duration = document.getElementById('duration').value;
-        const countryIso = document.getElementById('country').value;
-        const country = document.getElementById('country').options[document.getElementById('country').selectedIndex].text;
+        const countrySelect = document.getElementById('country');
+        const countryIso = countrySelect.value;
+        const country = countrySelect.options[countrySelect.selectedIndex].text;
         const language = document.getElementById('language').value.trim();
         const budget = document.getElementById('budget').value.trim();
         const studio = document.getElementById('studio').value.trim();
