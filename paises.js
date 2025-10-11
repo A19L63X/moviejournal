@@ -177,7 +177,7 @@ const paises = [
     { nombre: 'Togo', iso: 'TG' },
     { nombre: 'Tonga', iso: 'TO' },
     { nombre: 'Trinidad y Tobago', iso: 'TT' },
-    { nombre: 'Túnez', iso: 'TN' },
+    { nombre: 'Túnis', iso: 'TN' },
     { nombre: 'Turkmenistán', iso: 'TM' },
     { nombre: 'Turquía', iso: 'TR' },
     { nombre: 'Tuvalu', iso: 'TV' },
@@ -227,7 +227,17 @@ function obtenerNombrePais(iso) {
 // Función para obtener ISO por nombre del país
 function obtenerISOPais(nombre) {
     if (!nombre) return '';
-    const pais = paises.find(p => p.nombre.toLowerCase() === nombre.toLowerCase());
+    
+    // Normalizar el nombre para mejor búsqueda
+    const nombreNormalizado = nombre.trim().toLowerCase();
+    
+    // Buscar el país
+    const pais = paises.find(p => 
+        p.nombre.toLowerCase() === nombreNormalizado ||
+        p.nombre.toLowerCase().includes(nombreNormalizado) ||
+        nombreNormalizado.includes(p.nombre.toLowerCase())
+    );
+    
     return pais ? pais.iso : '';
 }
 
