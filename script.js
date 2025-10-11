@@ -137,7 +137,7 @@ class MovieManager {
         // Llenar con opciones
         paisesOrdenados.forEach(pais => {
             const option = document.createElement('option');
-            option.value = pais.iso;
+            option.value = pais.nombre; // Guardar el nombre del país, no el ISO
             option.textContent = pais.nombre;
             countrySelect.appendChild(option);
         });
@@ -308,8 +308,7 @@ class MovieManager {
         const genre = document.getElementById('genre').value;
         const duration = document.getElementById('duration').value;
         const countrySelect = document.getElementById('country');
-        const countryIso = countrySelect.value;
-        const countryName = countrySelect.options[countrySelect.selectedIndex].text;
+        const country = countrySelect.value; // Solo el nombre del país
         const language = document.getElementById('language').value.trim();
         const budget = document.getElementById('budget').value.trim();
         const studio = document.getElementById('studio').value.trim();
@@ -330,7 +329,7 @@ class MovieManager {
             { value: year, name: 'Año' },
             { value: genre, name: 'Género' },
             { value: duration, name: 'Duración' },
-            { value: countryIso, name: 'País' },
+            { value: country, name: 'País' },
             { value: language, name: 'Idioma' }
         ];
 
@@ -346,7 +345,7 @@ class MovieManager {
             return null;
         }
 
-        // Crear objeto de datos limpio
+        // Crear objeto de datos limpio - SIN country_iso
         const movieData = {
             title,
             director,
@@ -357,8 +356,7 @@ class MovieManager {
             review: review || 'Sin reseña personal',
             genre,
             duration: parseInt(duration),
-            country: countryName,
-            country_iso: countryIso,
+            country: country, // Solo el nombre del país
             language,
             budget: budget || 'No especificado',
             studio: studio || 'No especificado',
