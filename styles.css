@@ -1528,3 +1528,41 @@ textarea {
     height: 14px;
   }
 }
+/* ===== ESTILOS PARA BANDERAS EN TARJETAS Y DETALLES ===== */
+.movie-country {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+    font-size: 0.9em;
+    color: var(--dark-light);
+}
+
+.country-flag-small {
+    width: 20px;
+    height: 15px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    object-fit: cover;
+}
+
+.country-name {
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+/* Asegurar que los elementos de información en el detalle muestren bien las banderas */
+.info-item span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estilos para banderas en el detalle */
+.country-flag {
+    width: 30px;
+    height: 20px;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    object-fit: cover;
+}
