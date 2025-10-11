@@ -439,29 +439,40 @@ class MovieManager {
             return;
         }
 
-        moviesList.innerHTML = filteredMovies.map(movie => `
-            <div class="movie-card">
-                ${movie.poster ? 
-                    `<div class="poster-container">
-                        <img src="${movie.poster}" class="movie-poster" alt="${movie.title}" 
-                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'no-poster\\'>🎬 Sin póster</div>'">
-                    </div>` : 
-                    '<div class="no-poster">🎬 Sin póster</div>'
-                }
-                <div class="movie-title">${this.escapeHtml(movie.title)}</div>
-                <div class="movie-year-rating">
-                    <span class="movie-year">${movie.year}</span>
-                    <span class="rating-number">${movie.rating}/5</span>
+        moviesList.innerHTML = filteredMovies.map(movie => {
+            // Obtener código ISO del país basado en el nombre
+            const countryIso = obtenerISOPais(movie.country);
+            const flagUrl = countryIso ? `https://flagcdn.com/w20/${countryIso.toLowerCase()}.png` : '';
+            
+            return `
+                <div class="movie-card">
+                    ${movie.poster ? 
+                        `<div class="poster-container">
+                            <img src="${movie.poster}" class="movie-poster" alt="${movie.title}" 
+                                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'no-poster\\'>🎬 Sin póster</div>'">
+                        </div>` : 
+                        '<div class="no-poster">🎬 Sin póster</div>'
+                    }
+                    <div class="movie-title">${this.escapeHtml(movie.title)}</div>
+                    <div class="movie-year-rating">
+                        <span class="movie-year">${movie.year}</span>
+                        <span class="rating-number">${movie.rating}/5</span>
+                    </div>
+                    <!-- Nueva línea: Mostrar bandera del país -->
+                    <div class="movie-country">
+                        ${flagUrl ? `<img src="${flagUrl}" alt="Bandera" class="country-flag-small" title="${movie.country}">` : ''}
+                        <span class="country-name">${movie.country}</span>
+                    </div>
+                    <div class="movie-description">${this.escapeHtml(movie.description)}</div>
+                    <div class="movie-actions">
+                        <a href="detalle.html?id=${movie.id}" class="view-btn">👁️ VER</a>
+                        <button class="delete-btn" onclick="movieManager.deleteMovie(${movie.id})">
+                            🗑️ Eliminar
+                        </button>
+                    </div>
                 </div>
-                <div class="movie-description">${this.escapeHtml(movie.description)}</div>
-                <div class="movie-actions">
-                    <a href="detalle.html?id=${movie.id}" class="view-btn">👁️ VER</a>
-                    <button class="delete-btn" onclick="movieManager.deleteMovie(${movie.id})">
-                        🗑️ Eliminar
-                    </button>
-                </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     // LISTA ALFABÉTICA
