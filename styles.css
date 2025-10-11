@@ -290,6 +290,11 @@ textarea#review {
   color: #fff;
 }
 
+.search-link.filmaffinity {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: #fff;
+}
+
 .search-link:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
