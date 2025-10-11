@@ -73,26 +73,9 @@ class MovieDetail {
         document.getElementById('detailDuration').textContent = `${this.movie.duration} min`;
         document.getElementById('detailGenre').textContent = this.movie.genre;
         
-        // Mostrar país
+        // Mostrar país (sin bandera por ahora)
         const countryElement = document.getElementById('detailCountry');
-        if (this.movie.country_iso) {
-            const flagImg = document.createElement('img');
-            flagImg.src = `https://flagcdn.com/w40/${this.movie.country_iso.toLowerCase()}.png`;
-            flagImg.alt = 'Bandera';
-            flagImg.className = 'bandera bandera-pequeno';
-            flagImg.style.width = '30px';
-            flagImg.style.height = '20px';
-            flagImg.style.borderRadius = '3px';
-            flagImg.style.boxShadow = '0 1px 3px rgba(0,0,0,0.2)';
-            flagImg.style.marginRight = '10px';
-            flagImg.style.verticalAlign = 'middle';
-            
-            countryElement.innerHTML = '';
-            countryElement.appendChild(flagImg);
-            countryElement.appendChild(document.createTextNode(this.movie.country || this.movie.country_iso));
-        } else {
-            countryElement.textContent = this.movie.country || 'No especificado';
-        }
+        countryElement.textContent = this.movie.country || 'No especificado';
         
         document.getElementById('detailLanguage').textContent = this.movie.language;
         document.getElementById('detailBudget').textContent = this.movie.budget || 'No especificado';
@@ -157,11 +140,11 @@ class MovieDetail {
         
         paisesOrdenados.forEach(pais => {
             const option = document.createElement('option');
-            option.value = pais.iso;
+            option.value = pais.nombre; // Solo el nombre del país
             option.textContent = pais.nombre;
             
             // Seleccionar el país actual si existe
-            if (this.movie && (this.movie.country_iso === pais.iso || this.movie.country === pais.nombre)) {
+            if (this.movie && this.movie.country === pais.nombre) {
                 option.selected = true;
             }
             
@@ -345,8 +328,7 @@ class MovieDetail {
         const genre = document.getElementById('editGenre').value;
         const duration = document.getElementById('editDuration').value;
         const countrySelect = document.getElementById('editCountry');
-        const countryIso = countrySelect.value;
-        const countryName = countrySelect.options[countrySelect.selectedIndex].text;
+        const country = countrySelect.value; // Solo el nombre del país
         const language = document.getElementById('editLanguage').value.trim();
         const budget = document.getElementById('editBudget').value.trim();
         const studio = document.getElementById('editStudio').value.trim();
@@ -367,7 +349,7 @@ class MovieDetail {
             { value: year, name: 'Año' },
             { value: genre, name: 'Género' },
             { value: duration, name: 'Duración' },
-            { value: countryIso, name: 'País' },
+            { value: country, name: 'País' },
             { value: language, name: 'Idioma' }
         ];
 
@@ -383,6 +365,7 @@ class MovieDetail {
             return null;
         }
 
+        // SIN country_iso
         return {
             title,
             director,
@@ -393,8 +376,7 @@ class MovieDetail {
             review: review || 'Sin reseña personal',
             genre,
             duration: parseInt(duration),
-            country: countryName,
-            country_iso: countryIso,
+            country: country, // Solo el nombre del país
             language,
             budget: budget || 'No especificado',
             studio: studio || 'No especificado',
