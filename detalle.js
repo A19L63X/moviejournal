@@ -20,6 +20,7 @@ class MovieDetail {
         await this.loadMovie();
         this.setupEventListeners();
         this.initEditGenreCheckboxes();
+        this.fillEditCountrySelect();
     }
 
     async loadMovie() {
@@ -71,7 +72,18 @@ class MovieDetail {
         document.getElementById('detailYear').textContent = this.movie.year;
         document.getElementById('detailDuration').textContent = `${this.movie.duration} min`;
         document.getElementById('detailGenre').textContent = this.movie.genre;
-        document.getElementById('detailCountry').textContent = this.movie.country;
+        
+        // Mostrar país con bandera si está disponible
+        const countryElement = document.getElementById('detailCountry');
+        if (this.movie.country_iso) {
+            const flagElement = crearElementoBandera(this.movie.country_iso, 'pequeno');
+            countryElement.innerHTML = '';
+            countryElement.appendChild(flagElement);
+            countryElement.appendChild(document.createTextNode(this.movie.country));
+        } else {
+            countryElement.textContent = this.movie.country;
+        }
+        
         document.getElementById('detailLanguage').textContent = this.movie.language;
         document.getElementById('detailBudget').textContent = this.movie.budget || 'No especificado';
         document.getElementById('detailStudio').textContent = this.movie.studio || 'No especificado';
@@ -131,6 +143,17 @@ class MovieDetail {
         });
     }
 
+    // Llenar select de países en edición
+    fillEditCountrySelect() {
+        if (this.movie && this.movie.country_iso) {
+            llenarSelectPaises('editCountry', this.movie.country_iso);
+        } else if (this.movie && this.movie.country) {
+            llenarSelectPaises('editCountry', this.movie.country);
+        } else {
+            llenarSelectPaises('editCountry');
+        }
+    }
+
     prepareEditForm() {
         // Llenar formulario de edición con datos actuales
         document.getElementById('editId').value = this.movie.id;
@@ -139,7 +162,6 @@ class MovieDetail {
         document.getElementById('editCast').value = this.movie.movie_cast;
         document.getElementById('editYear').value = this.movie.year;
         document.getElementById('editDuration').value = this.movie.duration;
-        document.getElementById('editCountry').value = this.movie.country;
         document.getElementById('editLanguage').value = this.movie.language;
         document.getElementById('editBudget').value = this.movie.budget || '';
         document.getElementById('editStudio').value = this.movie.studio || '';
@@ -323,7 +345,8 @@ class MovieDetail {
         
         const genre = document.getElementById('editGenre').value;
         const duration = document.getElementById('editDuration').value;
-        const country = document.getElementById('editCountry').value.trim();
+        const countryIso = document.getElementById('editCountry').value;
+        const country = document.getElementById('editCountry').options[document.getElementById('editCountry').selectedIndex].text;
         const language = document.getElementById('editLanguage').value.trim();
         const budget = document.getElementById('editBudget').value.trim();
         const studio = document.getElementById('editStudio').value.trim();
@@ -343,7 +366,7 @@ class MovieDetail {
             { value: year, name: 'Año' },
             { value: genre, name: 'Género' },
             { value: duration, name: 'Duración' },
-            { value: country, name: 'País' },
+            { value: countryIso, name: 'País' },
             { value: language, name: 'Idioma' }
         ];
 
@@ -370,6 +393,7 @@ class MovieDetail {
             genre,
             duration: parseInt(duration),
             country,
+            country_iso: countryIso,
             language,
             budget: budget || 'No especificado',
             studio: studio || 'No especificado',
