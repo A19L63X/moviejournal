@@ -145,12 +145,12 @@ input#cast {
   background: var(--pastel-orange);
 }
 
-input#duration {
-  background: var(--pastel-teal);
+select#country, select#editCountry {
+  background: var(--pastel-blue);
 }
 
-input#country {
-  background: var(--pastel-blue);
+input#duration {
+  background: var(--pastel-teal);
 }
 
 input#language {
@@ -409,6 +409,25 @@ select {
 .checkbox-label span {
   text-transform: capitalize;
   font-weight: 500;
+}
+
+/* ===== ESTILOS PARA BANDERAS ===== */
+.bandera {
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  margin-right: 10px;
+  vertical-align: middle;
+  object-fit: cover;
+}
+
+.bandera-pequeno {
+  width: 30px;
+  height: 20px;
+}
+
+.bandera-grande {
+  width: 60px;
+  height: 40px;
 }
 
 /* ===== SISTEMA DE ESTRELLAS MEJORADO ===== */
@@ -978,6 +997,13 @@ button:active {
   margin-bottom: 5px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+/* Alinear banderas con texto en los items de información */
+.info-item span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .description-section {
