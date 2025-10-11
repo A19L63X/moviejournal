@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Movies Diaries</title>
-    <link rel="stylesheet" href="styles.css?v=4.5">
+    <link rel="stylesheet" href="styles.css?v=4.6">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -63,7 +63,7 @@
 
                 <!-- Tercera fila: Género (checkboxes horizontales) -->
                 <div class="form-group">
-                    <label for="genre">Género:*</label>
+                    <label for="genre">Género:* (Puedes seleccionar hasta 3 géneros)</label>
                     <div class="genre-checkboxes-horizontal">
                         <label class="checkbox-label">
                             <input type="checkbox" name="genre" value="Acción"> Acción
@@ -114,10 +114,16 @@
                             <input type="checkbox" name="genre" value="Histórico"> Histórico
                         </label>
                         <label class="checkbox-label">
+                            <input type="checkbox" name="genre" value="Distopía"> Distopía
+                        </label>
+                        <label class="checkbox-label">
                             <input type="checkbox" name="genre" value="Otro"> Otro
                         </label>
                     </div>
                     <input type="hidden" id="genre" required>
+                    <div id="genreLimitMessage" style="display: none; color: var(--accent); font-size: 0.9em; margin-top: 8px; font-weight: 600;">
+                        ⚠️ Solo puedes seleccionar hasta 3 géneros
+                    </div>
                 </div>
 
                 <!-- Cuarta fila: Duración, País, Idioma -->
@@ -241,7 +247,7 @@
         </div>
     </div>
 
-    <script src="paises.js?v=4.5"></script>
-    <script src="script.js?v=4.5"></script>
+    <script src="paises.js?v=4.6"></script>
+    <script src="script.js?v=4.6"></script>
 </body>
 </html>
