@@ -965,6 +965,20 @@ button:active {
   box-shadow: var(--shadow-sm);
 }
 
+.country-badge {
+  background: var(--gradient-success);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
 .detail-info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1170,6 +1184,17 @@ button:active {
   background-clip: text;
 }
 
+.alpha-genre {
+  background: var(--gradient-accent);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+
 .alpha-year {
   color: white;
   background: var(--gradient-primary);
@@ -1341,6 +1366,45 @@ textarea {
   padding: 12px 15px;
 }
 
+/* ===== ESTILOS PARA BANDERAS EN TARJETAS Y DETALLES ===== */
+.movie-country {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-size: 0.9em;
+  color: var(--dark-light);
+}
+
+.country-flag-small {
+  width: 20px;
+  height: 15px;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  object-fit: cover;
+}
+
+.country-name {
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+/* Asegurar que los elementos de información en el detalle muestren bien las banderas */
+.info-item span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Estilos para banderas en el detalle */
+.country-flag {
+  width: 30px;
+  height: 20px;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  object-fit: cover;
+}
+
 /* ===== DISEÑO RESPONSIVE ===== */
 @media (max-width: 1200px) {
   .container {
@@ -1425,7 +1489,7 @@ textarea {
     padding: 20px;
   }
   
-  .alpha-year, .alpha-rating {
+  .alpha-year, .alpha-rating, .alpha-genre {
     align-self: flex-start;
   }
   
@@ -1527,42 +1591,4 @@ textarea {
     width: 14px;
     height: 14px;
   }
-}
-/* ===== ESTILOS PARA BANDERAS EN TARJETAS Y DETALLES ===== */
-.movie-country {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 8px 0;
-    font-size: 0.9em;
-    color: var(--dark-light);
-}
-
-.country-flag-small {
-    width: 20px;
-    height: 15px;
-    border-radius: 2px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    object-fit: cover;
-}
-
-.country-name {
-    font-size: 0.9em;
-    font-weight: 500;
-}
-
-/* Asegurar que los elementos de información en el detalle muestren bien las banderas */
-.info-item span {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Estilos para banderas en el detalle */
-.country-flag {
-    width: 30px;
-    height: 20px;
-    border-radius: 3px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    object-fit: cover;
 }
