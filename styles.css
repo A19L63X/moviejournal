@@ -968,15 +968,18 @@ button:active {
 .country-badge {
   background: var(--gradient-success);
   color: white;
-  padding: 8px 16px;
+  padding: 8px 12px;
   border-radius: 20px;
   font-size: 0.9em;
   font-weight: 700;
   box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   white-space: nowrap;
+  height: 40px;
+  min-width: 40px;
 }
 
 .detail-info-grid {
