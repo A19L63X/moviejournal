@@ -1,4 +1,4 @@
-// Configuración de Supabase - REEMPLAZA con tus credenciales
+// Configuración de Supabase
 const SUPABASE_URL = 'https://wszpszjpfasqfutjskbl.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndzenBzempwZmFzcWZ1dGpza2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5Mzk1ODIsImV4cCI6MjA3NTUxNTU4Mn0.tc3U6nj3ZKlhz5I46DH6rTJcKrNR5VxPvjLGVlVLBVg';
 
@@ -15,6 +15,7 @@ class MovieManager {
         try {
             this.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             
+            // Test connection
             const { data, error } = await this.supabase.from('movies').select('count');
             
             if (error) {
@@ -27,16 +28,15 @@ class MovieManager {
 
         this.setupEventListeners();
         this.initGenreCheckboxes();
-        this.fillCountrySelect();
+        this.initCountrySelect();
         await this.loadMovies();
     }
 
     setupEventListeners() {
         // SISTEMA DE MEDIAS ESTRELLAS
-        document.querySelectorAll('.star').forEach(star => {
+        document.querySelectorAll('#stars .star').forEach(star => {
             star.addEventListener('click', () => this.setRating(star.dataset.value));
             
-            // Efecto hover para medias estrellas
             star.addEventListener('mouseover', (e) => {
                 const value = parseFloat(e.target.dataset.value);
                 this.highlightStars(value);
@@ -47,12 +47,11 @@ class MovieManager {
             this.highlightStars(this.currentRating);
         });
 
-        // Enlaces de búsqueda IMDB, TMDB, Wikipedia y Filmaffinity
+        // Enlaces de búsqueda
         document.getElementById('title').addEventListener('input', (e) => {
             this.updateSearchLinks(e.target.value);
         });
 
-        // Inicializar enlaces de búsqueda
         this.updateSearchLinks('');
 
         // Drag and drop para imágenes
@@ -122,8 +121,8 @@ class MovieManager {
         });
     }
 
-    // Llenar select de países
-    fillCountrySelect() {
+    // Inicializar select de países
+    initCountrySelect() {
         const countrySelect = document.getElementById('country');
         if (!countrySelect) return;
 
@@ -144,7 +143,7 @@ class MovieManager {
         });
     }
 
-    // Actualizar enlaces de búsqueda IMDB, TMDB, Wikipedia y Filmaffinity
+    // Actualizar enlaces de búsqueda
     updateSearchLinks(title) {
         const imdbLink = document.getElementById('imdbSearch');
         const tmdbLink = document.getElementById('tmdbSearch');
@@ -218,12 +217,17 @@ class MovieManager {
             let result;
 
             if (this.supabase) {
+                console.log('Enviando datos a Supabase:', movieData);
+                
                 const { data, error } = await this.supabase
                     .from('movies')
                     .insert([movieData])
                     .select();
 
-                if (error) throw error;
+                if (error) {
+                    console.error('Error de Supabase:', error);
+                    throw error;
+                }
                 result = data[0];
             } else {
                 movieData.id = Date.now();
@@ -239,7 +243,7 @@ class MovieManager {
             
         } catch (error) {
             console.error('Error agregando película:', error);
-            this.showMessage('Error al agregar la película', 'error');
+            this.showMessage('Error al agregar la película: ' + error.message, 'error');
         }
     }
 
@@ -305,7 +309,7 @@ class MovieManager {
         const duration = document.getElementById('duration').value;
         const countrySelect = document.getElementById('country');
         const countryIso = countrySelect.value;
-        const country = countrySelect.options[countrySelect.selectedIndex].text;
+        const countryName = countrySelect.options[countrySelect.selectedIndex].text;
         const language = document.getElementById('language').value.trim();
         const budget = document.getElementById('budget').value.trim();
         const studio = document.getElementById('studio').value.trim();
@@ -315,7 +319,7 @@ class MovieManager {
         const cinematography = document.getElementById('cinematography').value.trim();
         const awards = document.getElementById('awards').value.trim();
         
-        const preview = document.querySelector('.preview-image');
+        const preview = document.querySelector('#imagePreview .preview-image');
         const poster = preview ? preview.src : '';
 
         // Validaciones
@@ -342,17 +346,18 @@ class MovieManager {
             return null;
         }
 
-        return {
+        // Crear objeto de datos limpio
+        const movieData = {
             title,
             director,
             movie_cast: cast,
             year: parseInt(year),
-            rating,
+            rating: parseFloat(rating),
             description,
             review: review || 'Sin reseña personal',
             genre,
             duration: parseInt(duration),
-            country,
+            country: countryName,
             country_iso: countryIso,
             language,
             budget: budget || 'No especificado',
@@ -363,8 +368,12 @@ class MovieManager {
             cinematography: cinematography || 'No especificado',
             awards: awards || 'No especificado',
             poster,
-            created_at: new Date().toISOString()
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
         };
+
+        console.log('Datos de la película preparados:', movieData);
+        return movieData;
     }
 
     async loadMovies() {
@@ -457,7 +466,7 @@ class MovieManager {
         `).join('');
     }
 
-    // LISTA ALFABÉTICA CON ENLACES A FICHAS
+    // LISTA ALFABÉTICA
     renderAlphaView(movies) {
         const moviesList = document.getElementById('moviesList');
         
@@ -512,12 +521,27 @@ class MovieManager {
     }
 
     showMessage(message, type = 'info') {
+        // Eliminar mensajes existentes
         const existingMessages = document.querySelectorAll('.message');
         existingMessages.forEach(msg => msg.remove());
 
         const messageEl = document.createElement('div');
         messageEl.className = `message ${type}`;
         messageEl.textContent = message;
+        messageEl.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            max-width: 300px;
+            background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8'};
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        `;
         
         document.body.appendChild(messageEl);
 
@@ -534,7 +558,7 @@ class MovieManager {
     }
 }
 
-// Inicializar la aplicación cuando se carga la página
+// Inicializar la aplicación
 document.addEventListener('DOMContentLoaded', () => {
     window.movieManager = new MovieManager();
 });
