@@ -219,12 +219,14 @@ function crearElementoBandera(iso, tamaño = 'pequeno') {
 
 // Función para obtener nombre del país por ISO
 function obtenerNombrePais(iso) {
+    if (!iso) return '';
     const pais = paises.find(p => p.iso === iso.toUpperCase());
     return pais ? pais.nombre : '';
 }
 
 // Función para obtener ISO por nombre del país
 function obtenerISOPais(nombre) {
+    if (!nombre) return '';
     const pais = paises.find(p => p.nombre.toLowerCase() === nombre.toLowerCase());
     return pais ? pais.iso : '';
 }
@@ -247,9 +249,14 @@ function llenarSelectPaises(selectId, paisSeleccionado = '') {
         const option = document.createElement('option');
         option.value = pais.iso;
         option.textContent = pais.nombre;
-        if (paisSeleccionado && (pais.iso === paisSeleccionado || pais.nombre === paisSeleccionado)) {
-            option.selected = true;
+        
+        // Verificar si este país debe estar seleccionado
+        if (paisSeleccionado) {
+            if (pais.iso === paisSeleccionado || pais.nombre === paisSeleccionado) {
+                option.selected = true;
+            }
         }
+        
         select.appendChild(option);
     });
 }
