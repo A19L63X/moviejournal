@@ -27,6 +27,7 @@ class MovieManager {
 
         this.setupEventListeners();
         this.initGenreCheckboxes();
+        this.fillCountrySelect();
         await this.loadMovies();
     }
 
@@ -119,6 +120,11 @@ class MovieManager {
                 hiddenInput.value = selectedGenres;
             });
         });
+    }
+
+    // Llenar select de países
+    fillCountrySelect() {
+        llenarSelectPaises('country');
     }
 
     // Actualizar enlaces de búsqueda IMDB, TMDB, Wikipedia y Filmaffinity
@@ -262,6 +268,9 @@ class MovieManager {
             checkbox.checked = false;
         });
         document.getElementById('genre').value = '';
+        
+        // Resetear select de país
+        document.getElementById('country').value = '';
     }
 
     getFormData() {
@@ -277,7 +286,8 @@ class MovieManager {
         // Campos adicionales
         const genre = document.getElementById('genre').value;
         const duration = document.getElementById('duration').value;
-        const country = document.getElementById('country').value.trim();
+        const countryIso = document.getElementById('country').value;
+        const country = document.getElementById('country').options[document.getElementById('country').selectedIndex].text;
         const language = document.getElementById('language').value.trim();
         const budget = document.getElementById('budget').value.trim();
         const studio = document.getElementById('studio').value.trim();
@@ -298,7 +308,7 @@ class MovieManager {
             { value: year, name: 'Año' },
             { value: genre, name: 'Género' },
             { value: duration, name: 'Duración' },
-            { value: country, name: 'País' },
+            { value: countryIso, name: 'País' },
             { value: language, name: 'Idioma' }
         ];
 
@@ -325,6 +335,7 @@ class MovieManager {
             genre,
             duration: parseInt(duration),
             country,
+            country_iso: countryIso,
             language,
             budget: budget || 'No especificado',
             studio: studio || 'No especificado',
