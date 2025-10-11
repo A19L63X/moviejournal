@@ -1,4 +1,4 @@
-// Configuración de Supabase - misma que en script.js
+// Configuración de Supabase
 const SUPABASE_URL = 'https://wszpszjpfasqfutjskbl.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndzenBzempwZmFzcWZ1dGpza2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5Mzk1ODIsImV4cCI6MjA3NTUxNTU4Mn0.tc3U6nj3ZKlhz5I46DH6rTJcKrNR5VxPvjLGVlVLBVg';
 
@@ -20,7 +20,7 @@ class MovieDetail {
         await this.loadMovie();
         this.setupEventListeners();
         this.initEditGenreCheckboxes();
-        this.fillEditCountrySelect();
+        this.initEditCountrySelect();
     }
 
     async loadMovie() {
@@ -65,7 +65,7 @@ class MovieDetail {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('movieDetail').style.display = 'block';
 
-        // Llenar datos en vista de lectura
+        // Llenar datos básicos
         document.getElementById('detailTitle').textContent = this.movie.title;
         document.getElementById('detailDirector').textContent = this.movie.director;
         document.getElementById('detailCast').textContent = this.movie.movie_cast;
@@ -73,7 +73,7 @@ class MovieDetail {
         document.getElementById('detailDuration').textContent = `${this.movie.duration} min`;
         document.getElementById('detailGenre').textContent = this.movie.genre;
         
-        // Mostrar país con bandera si está disponible
+        // Mostrar país
         const countryElement = document.getElementById('detailCountry');
         if (this.movie.country_iso) {
             const flagImg = document.createElement('img');
@@ -89,9 +89,9 @@ class MovieDetail {
             
             countryElement.innerHTML = '';
             countryElement.appendChild(flagImg);
-            countryElement.appendChild(document.createTextNode(this.movie.country));
+            countryElement.appendChild(document.createTextNode(this.movie.country || this.movie.country_iso));
         } else {
-            countryElement.textContent = this.movie.country;
+            countryElement.textContent = this.movie.country || 'No especificado';
         }
         
         document.getElementById('detailLanguage').textContent = this.movie.language;
@@ -105,19 +105,16 @@ class MovieDetail {
         document.getElementById('detailDescription').textContent = this.movie.description;
         document.getElementById('detailReview').textContent = this.movie.review || 'Sin reseña personal';
 
-        // Mostrar valoración con medias estrellas
+        // Rating
         const ratingElement = document.getElementById('detailRating');
         ratingElement.innerHTML = this.renderStars(this.movie.rating);
-        
-        // Mostrar número de rating
         document.getElementById('detailRatingNumber').textContent = `${this.movie.rating}/5`;
 
-        // Mostrar póster
+        // Póster
         const posterImg = document.getElementById('detailPoster');
         if (this.movie.poster) {
             posterImg.src = this.movie.poster;
             posterImg.style.display = 'block';
-            posterImg.style.background = 'linear-gradient(135deg, var(--gray-light), #d1d5db)';
         } else {
             posterImg.style.display = 'none';
         }
@@ -125,20 +122,14 @@ class MovieDetail {
         this.prepareEditForm();
     }
 
-    // Renderizar estrellas para vista de detalles
     renderStars(rating) {
         let starsHTML = '';
         for (let i = 0.5; i <= 5; i += 0.5) {
-            if (i <= rating) {
-                starsHTML += '<span class="star active">★</span>';
-            } else {
-                starsHTML += '<span class="star">☆</span>';
-            }
+            starsHTML += `<span class="star ${i <= rating ? 'active' : ''}">${i <= rating ? '★' : '☆'}</span>`;
         }
         return starsHTML;
     }
 
-    // Inicializar checkboxes de género en edición
     initEditGenreCheckboxes() {
         const checkboxes = document.querySelectorAll('input[name="editGenre"]');
         const hiddenInput = document.getElementById('editGenre');
@@ -153,34 +144,33 @@ class MovieDetail {
         });
     }
 
-    // Llenar select de países en edición
-    fillEditCountrySelect() {
+    initEditCountrySelect() {
         const countrySelect = document.getElementById('editCountry');
         if (!countrySelect) return;
 
-        // Ordenar países por nombre
+        // Ordenar países
         const paisesOrdenados = [...paises].sort((a, b) => 
             a.nombre.localeCompare(b.nombre, 'es')
         );
 
-        // Limpiar select
         countrySelect.innerHTML = '<option value="">Selecciona un país</option>';
-
-        // Llenar con opciones
+        
         paisesOrdenados.forEach(pais => {
             const option = document.createElement('option');
             option.value = pais.iso;
             option.textContent = pais.nombre;
+            
+            // Seleccionar el país actual si existe
             if (this.movie && (this.movie.country_iso === pais.iso || this.movie.country === pais.nombre)) {
                 option.selected = true;
             }
+            
             countrySelect.appendChild(option);
         });
     }
 
     prepareEditForm() {
-        // Llenar formulario de edición con datos actuales
-        document.getElementById('editId').value = this.movie.id;
+        // Llenar formulario con datos actuales
         document.getElementById('editTitle').value = this.movie.title;
         document.getElementById('editDirector').value = this.movie.director;
         document.getElementById('editCast').value = this.movie.movie_cast;
@@ -197,47 +187,42 @@ class MovieDetail {
         document.getElementById('editDescription').value = this.movie.description;
         document.getElementById('editReview').value = this.movie.review || '';
         
-        // Configurar géneros en checkboxes
+        // Géneros
         const currentGenres = this.movie.genre.split(',').map(g => g.trim());
         document.querySelectorAll('input[name="editGenre"]').forEach(checkbox => {
             checkbox.checked = currentGenres.includes(checkbox.value);
         });
         document.getElementById('editGenre').value = this.movie.genre;
         
-        // Configurar estrellas
+        // Rating
         this.setEditRating(this.movie.rating);
 
-        // Mostrar imagen actual
+        // Imagen
         if (this.movie.poster) {
-            const preview = document.getElementById('editImagePreview');
-            preview.innerHTML = `<img src="${this.movie.poster}" class="preview-image" alt="Vista previa">`;
+            document.getElementById('editImagePreview').innerHTML = 
+                `<img src="${this.movie.poster}" class="preview-image" alt="Vista previa">`;
         }
     }
 
     setupEventListeners() {
-        // Botón editar
         document.getElementById('editButton').addEventListener('click', () => {
             this.showEditView();
         });
 
-        // Botón cancelar edición
         document.getElementById('cancelEdit').addEventListener('click', () => {
             this.showReadView();
         });
 
-        // Formulario de edición
         document.getElementById('editForm').addEventListener('submit', (e) => {
             e.preventDefault();
             this.updateMovie();
         });
 
-        // SISTEMA DE MEDIAS ESTRELLAS EN EDICIÓN
+        // Estrellas
         document.querySelectorAll('#editStars .star').forEach(star => {
             star.addEventListener('click', () => this.setEditRating(star.dataset.value));
-            
             star.addEventListener('mouseover', (e) => {
-                const value = parseFloat(e.target.dataset.value);
-                this.highlightEditStars(value);
+                this.highlightEditStars(parseFloat(e.target.dataset.value));
             });
         });
 
@@ -245,27 +230,18 @@ class MovieDetail {
             this.highlightEditStars(this.currentRating);
         });
 
-        // Drag and drop para edición
+        // Imagen
         const dropZone = document.getElementById('editDropZone');
         const fileInput = document.getElementById('editPoster');
 
         dropZone.addEventListener('click', () => fileInput.click());
-        
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
-        });
-
+        dropZone.addEventListener('dragover', (e) => e.preventDefault());
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                this.handleEditImageUpload(files[0]);
+            if (e.dataTransfer.files.length > 0) {
+                this.handleEditImageUpload(e.dataTransfer.files[0]);
             }
         });
 
@@ -276,7 +252,6 @@ class MovieDetail {
         });
     }
 
-    // SISTEMA DE MEDIAS ESTRELLAS PARA EDICIÓN
     setEditRating(rating) {
         this.currentRating = parseFloat(rating);
         document.getElementById('editRating').value = this.currentRating;
@@ -286,12 +261,7 @@ class MovieDetail {
 
     highlightEditStars(rating) {
         document.querySelectorAll('#editStars .star').forEach(star => {
-            const starValue = parseFloat(star.dataset.value);
-            if (starValue <= rating) {
-                star.classList.add('active');
-            } else {
-                star.classList.remove('active');
-            }
+            star.classList.toggle('active', parseFloat(star.dataset.value) <= rating);
         });
     }
 
@@ -307,7 +277,6 @@ class MovieDetail {
     showReadView() {
         document.getElementById('editView').style.display = 'none';
         document.getElementById('readView').style.display = 'block';
-        this.prepareEditForm();
     }
 
     handleEditImageUpload(file) {
@@ -318,8 +287,8 @@ class MovieDetail {
 
         const reader = new FileReader();
         reader.onload = (e) => {
-            const preview = document.getElementById('editImagePreview');
-            preview.innerHTML = `<img src="${e.target.result}" class="preview-image" alt="Vista previa">`;
+            document.getElementById('editImagePreview').innerHTML = 
+                `<img src="${e.target.result}" class="preview-image" alt="Vista previa">`;
         };
         reader.readAsDataURL(file);
     }
@@ -330,13 +299,19 @@ class MovieDetail {
 
         try {
             if (this.supabase) {
+                console.log('Actualizando película:', movieData);
+                
                 const { data, error } = await this.supabase
                     .from('movies')
                     .update(movieData)
                     .eq('id', this.movie.id)
                     .select();
 
-                if (error) throw error;
+                if (error) {
+                    console.error('Error de Supabase:', error);
+                    throw error;
+                }
+                
                 this.movie = { ...this.movie, ...movieData };
             } else {
                 const movies = JSON.parse(localStorage.getItem('movies')) || [];
@@ -354,7 +329,7 @@ class MovieDetail {
             
         } catch (error) {
             console.error('Error actualizando película:', error);
-            this.showMessage('Error al actualizar la película', 'error');
+            this.showMessage('Error al actualizar la película: ' + error.message, 'error');
         }
     }
 
@@ -371,7 +346,7 @@ class MovieDetail {
         const duration = document.getElementById('editDuration').value;
         const countrySelect = document.getElementById('editCountry');
         const countryIso = countrySelect.value;
-        const country = countrySelect.options[countrySelect.selectedIndex].text;
+        const countryName = countrySelect.options[countrySelect.selectedIndex].text;
         const language = document.getElementById('editLanguage').value.trim();
         const budget = document.getElementById('editBudget').value.trim();
         const studio = document.getElementById('editStudio').value.trim();
@@ -384,6 +359,7 @@ class MovieDetail {
         const preview = document.querySelector('#editImagePreview .preview-image');
         const poster = preview ? preview.src : this.movie.poster;
 
+        // Validaciones
         const requiredFields = [
             { value: title, name: 'Película' },
             { value: director, name: 'Director' },
@@ -412,12 +388,12 @@ class MovieDetail {
             director,
             movie_cast: cast,
             year: parseInt(year),
-            rating,
+            rating: parseFloat(rating),
             description,
             review: review || 'Sin reseña personal',
             genre,
             duration: parseInt(duration),
-            country,
+            country: countryName,
             country_iso: countryIso,
             language,
             budget: budget || 'No especificado',
@@ -459,19 +435,12 @@ class MovieDetail {
         document.body.appendChild(messageEl);
 
         setTimeout(() => {
-            if (messageEl.parentNode) {
-                messageEl.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => {
-                    if (messageEl.parentNode) {
-                        messageEl.parentNode.removeChild(messageEl);
-                    }
-                }, 300);
-            }
+            messageEl.remove();
         }, 4000);
     }
 }
 
-// Inicializar la página de detalles
+// Inicializar
 document.addEventListener('DOMContentLoaded', () => {
     new MovieDetail();
 });
