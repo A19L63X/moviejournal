@@ -494,6 +494,7 @@ class MovieManager {
                     <a href="detalle.html?id=${movie.id}" class="alpha-item">
                         <span class="alpha-title">${this.escapeHtml(movie.title)}</span>
                         <div style="display: flex; gap: 10px; align-items: center;">
+                            <span class="alpha-genre">${movie.genre}</span>
                             <span class="alpha-year">${movie.year}</span>
                             <span class="alpha-rating">${movie.rating}/5</span>
                         </div>
