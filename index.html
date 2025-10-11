@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Movies Diaries</title>
-    <link rel="stylesheet" href="styles.css?v=4.1">
+    <link rel="stylesheet" href="styles.css?v=4.3">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -30,7 +30,6 @@
                     <a id="wikipediaSearch" href="#" target="_blank" class="search-link wikipedia">
                         <span>🔍 Buscar en Wikipedia</span>
                     </a>
-                    <!-- NUEVO BOTÓN FILMAFFINITY -->
                     <a id="filmaffinitySearch" href="#" target="_blank" class="search-link filmaffinity">
                         <span>🔍 Buscar en Filmaffinity</span>
                     </a>
@@ -129,7 +128,10 @@
                     </div>
                     <div class="form-group medium">
                         <label for="country">País:*</label>
-                        <input type="text" id="country" required>
+                        <select id="country" required>
+                            <option value="">Selecciona un país</option>
+                            <!-- Las opciones se llenarán con JavaScript -->
+                        </select>
                     </div>
                     <div class="form-group medium">
                         <label for="language">Idioma:*</label>
@@ -240,6 +242,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=4.1"></script>
+    <script src="paises.js?v=4.3"></script>
+    <script src="script.js?v=4.3"></script>
 </body>
 </html>
