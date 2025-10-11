@@ -1,4 +1,4 @@
-// paises.js - Lista de países con códigos ISO para banderas
+// paises.js - Lista completa de países con códigos ISO
 const paises = [
     { nombre: 'Afganistán', iso: 'AF' },
     { nombre: 'Albania', iso: 'AL' },
@@ -21,7 +21,6 @@ const paises = [
     { nombre: 'Belice', iso: 'BZ' },
     { nombre: 'Benín', iso: 'BJ' },
     { nombre: 'Bielorrusia', iso: 'BY' },
-    { nombre: 'Birmania', iso: 'MM' },
     { nombre: 'Bolivia', iso: 'BO' },
     { nombre: 'Bosnia y Herzegovina', iso: 'BA' },
     { nombre: 'Botsuana', iso: 'BW' },
@@ -165,7 +164,6 @@ const paises = [
     { nombre: 'Siria', iso: 'SY' },
     { nombre: 'Somalia', iso: 'SO' },
     { nombre: 'Sri Lanka', iso: 'LK' },
-    { nombre: 'Suazilandia', iso: 'SZ' },
     { nombre: 'Sudáfrica', iso: 'ZA' },
     { nombre: 'Sudán', iso: 'SD' },
     { nombre: 'Sudán del Sur', iso: 'SS' },
@@ -195,3 +193,37 @@ const paises = [
     { nombre: 'Zambia', iso: 'ZM' },
     { nombre: 'Zimbabue', iso: 'ZW' }
 ];
+
+// Función para obtener la URL de la bandera
+function obtenerBandera(iso) {
+    return `https://flagcdn.com/w40/${iso.toLowerCase()}.png`;
+}
+
+// Función para crear elemento de bandera
+function crearElementoBandera(iso, tamaño = 'pequeno') {
+    const ancho = tamaño === 'grande' ? '60' : '30';
+    const alto = tamaño === 'grande' ? '45' : '20';
+    
+    const img = document.createElement('img');
+    img.src = `https://flagcdn.com/w${ancho}/${iso.toLowerCase()}.png`;
+    img.alt = 'Bandera';
+    img.className = `bandera bandera-${tamaño}`;
+    img.style.width = `${ancho}px`;
+    img.style.height = `${alto}px`;
+    img.style.borderRadius = '3px';
+    img.style.boxShadow = '0 1px 3px rgba(0,0,0,0.2)';
+    
+    return img;
+}
+
+// Función para obtener nombre del país por ISO
+function obtenerNombrePais(iso) {
+    const pais = paises.find(p => p.iso === iso.toUpperCase());
+    return pais ? pais.nombre : '';
+}
+
+// Función para obtener ISO por nombre del país
+function obtenerISOPais(nombre) {
+    const pais = paises.find(p => p.nombre.toLowerCase() === nombre.toLowerCase());
+    return pais ? pais.iso : '';
+}
