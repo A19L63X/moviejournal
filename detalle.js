@@ -73,20 +73,19 @@ class MovieDetail {
         document.getElementById('detailDuration').textContent = `${this.movie.duration} min`;
         document.getElementById('detailGenre').textContent = this.movie.genre;
         
-        // Mostrar bandera del país en los metadatos principales
+        // Mostrar bandera del país en los metadatos principales - CORREGIDO
         const countryFlagElement = document.getElementById('detailCountryFlag');
         const countryIso = obtenerISOPais(this.movie.country);
         if (countryIso) {
-            const flagUrl = `https://flagcdn.com/w30/${countryIso.toLowerCase()}.png`;
+            const flagUrl = `https://flagcdn.com/w40/${countryIso.toLowerCase()}.png`;
             countryFlagElement.innerHTML = `
-                <img src="${flagUrl}" alt="Bandera de ${this.movie.country}" class="country-flag" 
-                     style="width: 30px; height: 20px; border-radius: 3px; margin-right: 8px; vertical-align: middle; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
-                ${this.movie.country}
+                <img src="${flagUrl}" alt="Bandera de ${this.movie.country}" 
+                     style="width: 40px; height: 25px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); object-fit: cover;">
             `;
+            countryFlagElement.title = this.movie.country;
         } else {
-            countryFlagElement.textContent = this.movie.country;
+            countryFlagElement.innerHTML = `<span>${this.movie.country}</span>`;
         }
-        countryFlagElement.className = 'country-badge';
         
         document.getElementById('detailLanguage').textContent = this.movie.language;
         document.getElementById('detailBudget').textContent = this.movie.budget || 'No especificado';
