@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle de Película - My Movies Diaries</title>
-    <link rel="stylesheet" href="styles.css?v=4.5">
+    <link rel="stylesheet" href="styles.css?v=4.6">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -132,7 +132,7 @@
 
                     <!-- Género con checkboxes horizontales -->
                     <div class="form-group">
-                        <label for="editGenre">Género:*</label>
+                        <label for="editGenre">Género:* (Puedes seleccionar hasta 3 géneros)</label>
                         <div class="genre-checkboxes-horizontal">
                             <label class="checkbox-label">
                                 <input type="checkbox" name="editGenre" value="Acción"> Acción
@@ -183,10 +183,16 @@
                                 <input type="checkbox" name="editGenre" value="Histórico"> Histórico
                             </label>
                             <label class="checkbox-label">
+                                <input type="checkbox" name="editGenre" value="Distopía"> Distopía
+                            </label>
+                            <label class="checkbox-label">
                                 <input type="checkbox" name="editGenre" value="Otro"> Otro
                             </label>
                         </div>
                         <input type="hidden" id="editGenre" required>
+                        <div id="editGenreLimitMessage" style="display: none; color: var(--accent); font-size: 0.9em; margin-top: 8px; font-weight: 600;">
+                            ⚠️ Solo puedes seleccionar hasta 3 géneros
+                        </div>
                     </div>
 
                     <!-- Campos adicionales en edición -->
@@ -302,7 +308,7 @@
         </div>
     </div>
 
-    <script src="paises.js?v=4.5"></script>
-    <script src="detalle.js?v=4.5"></script>
+    <script src="paises.js?v=4.6"></script>
+    <script src="detalle.js?v=4.6"></script>
 </body>
 </html>
