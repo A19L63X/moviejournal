@@ -46,7 +46,7 @@ class MovieManager {
             this.highlightStars(this.currentRating);
         });
 
-        // Enlaces de búsqueda IMDB, TMDB y Wikipedia
+        // Enlaces de búsqueda IMDB, TMDB, Wikipedia y Filmaffinity
         document.getElementById('title').addEventListener('input', (e) => {
             this.updateSearchLinks(e.target.value);
         });
@@ -121,27 +121,32 @@ class MovieManager {
         });
     }
 
-    // Actualizar enlaces de búsqueda IMDB, TMDB y Wikipedia
+    // Actualizar enlaces de búsqueda IMDB, TMDB, Wikipedia y Filmaffinity
     updateSearchLinks(title) {
         const imdbLink = document.getElementById('imdbSearch');
         const tmdbLink = document.getElementById('tmdbSearch');
         const wikipediaLink = document.getElementById('wikipediaSearch');
+        const filmaffinityLink = document.getElementById('filmaffinitySearch');
         
         if (title && title.trim() !== '') {
             const encodedTitle = encodeURIComponent(title.trim());
             imdbLink.href = `https://www.imdb.com/find?q=${encodedTitle}`;
             tmdbLink.href = `https://www.themoviedb.org/search?query=${encodedTitle}`;
             wikipediaLink.href = `https://es.wikipedia.org/w/index.php?search=${encodedTitle}`;
+            filmaffinityLink.href = `https://www.filmaffinity.com/es/search.php?stext=${encodedTitle}`;
             imdbLink.style.opacity = '1';
             tmdbLink.style.opacity = '1';
             wikipediaLink.style.opacity = '1';
+            filmaffinityLink.style.opacity = '1';
         } else {
             imdbLink.href = '#';
             tmdbLink.href = '#';
             wikipediaLink.href = '#';
+            filmaffinityLink.href = '#';
             imdbLink.style.opacity = '0.6';
             tmdbLink.style.opacity = '0.6';
             wikipediaLink.style.opacity = '0.6';
+            filmaffinityLink.style.opacity = '0.6';
         }
     }
 
