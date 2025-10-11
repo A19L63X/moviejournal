@@ -73,9 +73,18 @@ class MovieDetail {
         document.getElementById('detailDuration').textContent = `${this.movie.duration} min`;
         document.getElementById('detailGenre').textContent = this.movie.genre;
         
-        // Mostrar país (sin bandera por ahora)
+        // Mostrar país con bandera
         const countryElement = document.getElementById('detailCountry');
-        countryElement.textContent = this.movie.country || 'No especificado';
+        const countryIso = obtenerISOPais(this.movie.country);
+        if (countryIso) {
+            const flagUrl = `https://flagcdn.com/w30/${countryIso.toLowerCase()}.png`;
+            countryElement.innerHTML = `
+                <img src="${flagUrl}" alt="Bandera" class="country-flag" style="width: 30px; height: 20px; border-radius: 3px; margin-right: 10px; vertical-align: middle; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
+                ${this.movie.country}
+            `;
+        } else {
+            countryElement.textContent = this.movie.country;
+        }
         
         document.getElementById('detailLanguage').textContent = this.movie.language;
         document.getElementById('detailBudget').textContent = this.movie.budget || 'No especificado';
