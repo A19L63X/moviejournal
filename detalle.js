@@ -76,9 +76,19 @@ class MovieDetail {
         // Mostrar país con bandera si está disponible
         const countryElement = document.getElementById('detailCountry');
         if (this.movie.country_iso) {
-            const flagElement = crearElementoBandera(this.movie.country_iso, 'pequeno');
+            const flagImg = document.createElement('img');
+            flagImg.src = `https://flagcdn.com/w40/${this.movie.country_iso.toLowerCase()}.png`;
+            flagImg.alt = 'Bandera';
+            flagImg.className = 'bandera bandera-pequeno';
+            flagImg.style.width = '30px';
+            flagImg.style.height = '20px';
+            flagImg.style.borderRadius = '3px';
+            flagImg.style.boxShadow = '0 1px 3px rgba(0,0,0,0.2)';
+            flagImg.style.marginRight = '10px';
+            flagImg.style.verticalAlign = 'middle';
+            
             countryElement.innerHTML = '';
-            countryElement.appendChild(flagElement);
+            countryElement.appendChild(flagImg);
             countryElement.appendChild(document.createTextNode(this.movie.country));
         } else {
             countryElement.textContent = this.movie.country;
@@ -145,13 +155,27 @@ class MovieDetail {
 
     // Llenar select de países en edición
     fillEditCountrySelect() {
-        if (this.movie && this.movie.country_iso) {
-            llenarSelectPaises('editCountry', this.movie.country_iso);
-        } else if (this.movie && this.movie.country) {
-            llenarSelectPaises('editCountry', this.movie.country);
-        } else {
-            llenarSelectPaises('editCountry');
-        }
+        const countrySelect = document.getElementById('editCountry');
+        if (!countrySelect) return;
+
+        // Ordenar países por nombre
+        const paisesOrdenados = [...paises].sort((a, b) => 
+            a.nombre.localeCompare(b.nombre, 'es')
+        );
+
+        // Limpiar select
+        countrySelect.innerHTML = '<option value="">Selecciona un país</option>';
+
+        // Llenar con opciones
+        paisesOrdenados.forEach(pais => {
+            const option = document.createElement('option');
+            option.value = pais.iso;
+            option.textContent = pais.nombre;
+            if (this.movie && (this.movie.country_iso === pais.iso || this.movie.country === pais.nombre)) {
+                option.selected = true;
+            }
+            countrySelect.appendChild(option);
+        });
     }
 
     prepareEditForm() {
@@ -345,8 +369,9 @@ class MovieDetail {
         
         const genre = document.getElementById('editGenre').value;
         const duration = document.getElementById('editDuration').value;
-        const countryIso = document.getElementById('editCountry').value;
-        const country = document.getElementById('editCountry').options[document.getElementById('editCountry').selectedIndex].text;
+        const countrySelect = document.getElementById('editCountry');
+        const countryIso = countrySelect.value;
+        const country = countrySelect.options[countrySelect.selectedIndex].text;
         const language = document.getElementById('editLanguage').value.trim();
         const budget = document.getElementById('editBudget').value.trim();
         const studio = document.getElementById('editStudio').value.trim();
