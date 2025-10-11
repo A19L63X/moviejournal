@@ -202,7 +202,7 @@ function obtenerBandera(iso) {
 // Función para crear elemento de bandera
 function crearElementoBandera(iso, tamaño = 'pequeno') {
     const ancho = tamaño === 'grande' ? '60' : '30';
-    const alto = tamaño === 'grande' ? '45' : '20';
+    const alto = tamaño === 'grande' ? '40' : '20';
     
     const img = document.createElement('img');
     img.src = `https://flagcdn.com/w${ancho}/${iso.toLowerCase()}.png`;
@@ -212,6 +212,7 @@ function crearElementoBandera(iso, tamaño = 'pequeno') {
     img.style.height = `${alto}px`;
     img.style.borderRadius = '3px';
     img.style.boxShadow = '0 1px 3px rgba(0,0,0,0.2)';
+    img.style.objectFit = 'cover';
     
     return img;
 }
@@ -226,4 +227,29 @@ function obtenerNombrePais(iso) {
 function obtenerISOPais(nombre) {
     const pais = paises.find(p => p.nombre.toLowerCase() === nombre.toLowerCase());
     return pais ? pais.iso : '';
+}
+
+// Función para llenar un select con países
+function llenarSelectPaises(selectId, paisSeleccionado = '') {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+
+    // Ordenar países por nombre
+    const paisesOrdenados = [...paises].sort((a, b) => 
+        a.nombre.localeCompare(b.nombre, 'es')
+    );
+
+    // Limpiar select
+    select.innerHTML = '<option value="">Selecciona un país</option>';
+
+    // Llenar con opciones
+    paisesOrdenados.forEach(pais => {
+        const option = document.createElement('option');
+        option.value = pais.iso;
+        option.textContent = pais.nombre;
+        if (paisSeleccionado && (pais.iso === paisSeleccionado || pais.nombre === paisSeleccionado)) {
+            option.selected = true;
+        }
+        select.appendChild(option);
+    });
 }
