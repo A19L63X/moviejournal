@@ -31,10 +31,14 @@ class MovieManager {
         const viewParam = urlParams.get('view');
         
         if (viewParam === 'collection') {
+            // VISTA COLECCIÓN: Ocultar formulario y mostrar grid
+            document.getElementById('formContainer').style.display = 'none';
             this.isAlphaView = false;
             document.getElementById('moviesTitle').textContent = 'Mi Colección de Películas';
             document.getElementById('sortAlphabetical').textContent = '🔤 Ver Orden Alfabético';
         } else {
+            // VISTA PRINCIPAL: Mostrar formulario y lista alfabética
+            document.getElementById('formContainer').style.display = 'block';
             this.isAlphaView = true;
             document.getElementById('moviesTitle').textContent = 'Películas en Orden Alfabético';
             document.getElementById('sortAlphabetical').textContent = '🎬 Ver Vista de Colección';
