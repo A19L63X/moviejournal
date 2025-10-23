@@ -7,7 +7,7 @@ class MovieManager {
         this.supabase = null;
         this.movies = [];
         this.currentRating = 0;
-        this.isAlphaView = false;
+        this.isAlphaView = true; // Cambiado a true para mostrar orden alfabético por defecto
         this.init();
     }
 
@@ -24,6 +24,20 @@ class MovieManager {
             }
         } catch (error) {
             console.warn('Supabase no disponible, usando localStorage:', error);
+        }
+
+        // Verificar parámetro de URL para determinar la vista
+        const urlParams = new URLSearchParams(window.location.search);
+        const viewParam = urlParams.get('view');
+        
+        if (viewParam === 'collection') {
+            this.isAlphaView = false;
+            document.getElementById('moviesTitle').textContent = 'Mi Colección de Películas';
+            document.getElementById('sortAlphabetical').textContent = '🔤 Ver Orden Alfabético';
+        } else {
+            this.isAlphaView = true;
+            document.getElementById('moviesTitle').textContent = 'Películas en Orden Alfabético';
+            document.getElementById('sortAlphabetical').textContent = '🎬 Ver Vista de Colección';
         }
 
         this.setupEventListeners();
@@ -100,9 +114,9 @@ class MovieManager {
             this.toggleAlphaView();
         });
 
-        // Ver todas
+        // Ver todas - MODIFICADO: abrir en nueva pestaña
         document.getElementById('showAll').addEventListener('click', () => {
-            this.showAllMovies();
+            this.openCollectionInNewTab();
         });
     }
 
@@ -141,6 +155,16 @@ class MovieManager {
             option.textContent = pais.nombre;
             countrySelect.appendChild(option);
         });
+    }
+
+    // NUEVO MÉTODO: Abrir colección en nueva pestaña
+    openCollectionInNewTab() {
+        // Crear una URL con parámetro para vista de colección
+        const url = new URL(window.location.href);
+        url.searchParams.set('view', 'collection');
+        
+        // Abrir en nueva pestaña
+        window.open(url.toString(), '_blank');
     }
 
     // Actualizar enlaces de búsqueda
@@ -509,10 +533,12 @@ class MovieManager {
         
         if (this.isAlphaView) {
             document.getElementById('moviesTitle').textContent = 'Películas en Orden Alfabético';
-            document.getElementById('sortAlphabetical').textContent = '🎬 Ver Vista Normal';
+            document.getElementById('sortAlphabetical').textContent = '🎬 Ver Vista de Colección';
             this.renderMovies(document.getElementById('search').value);
         } else {
-            this.showAllMovies();
+            document.getElementById('moviesTitle').textContent = 'Mi Colección de Películas';
+            document.getElementById('sortAlphabetical').textContent = '🔤 Ver Orden Alfabético';
+            this.renderMovies(document.getElementById('search').value);
         }
     }
 
