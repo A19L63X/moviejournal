@@ -37,8 +37,8 @@ class MovieManager {
             document.getElementById('moviesTitle').textContent = 'Mi Colección de Películas';
             document.getElementById('sortAlphabetical').textContent = '🔤 Ver Orden Alfabético';
             
-            // Cambiar título de la página y header principal
-            document.title = 'My Movies Collection';
+            // Cambiar título de la página y header principal con iconos
+            document.title = '🎬📚 My Movies Collection';
             document.getElementById('mainHeader').textContent = '🎬 My Movies Collection 🎬';
         } else {
             // VISTA PRINCIPAL: Mostrar formulario y lista alfabética
@@ -47,8 +47,8 @@ class MovieManager {
             document.getElementById('moviesTitle').textContent = 'Películas en Orden Alfabético';
             document.getElementById('sortAlphabetical').textContent = '🎬 Ver Vista de Colección';
             
-            // Asegurar títulos correctos para vista principal
-            document.title = 'My Movies Diaries';
+            // Asegurar títulos correctos para vista principal con iconos
+            document.title = '🎬📝 My Movies Diaries';
             document.getElementById('mainHeader').textContent = '🎬 My Movies Diaries 🎬';
         }
 
