@@ -31,17 +31,25 @@ class MovieManager {
         const viewParam = urlParams.get('view');
         
         if (viewParam === 'collection') {
-            // VISTA COLECCIÓN: Ocultar formulario y mostrar grid
+            // VISTA COLECCIÓN: Ocultar formulario, mostrar grid y cambiar títulos
             document.getElementById('formContainer').style.display = 'none';
             this.isAlphaView = false;
             document.getElementById('moviesTitle').textContent = 'Mi Colección de Películas';
             document.getElementById('sortAlphabetical').textContent = '🔤 Ver Orden Alfabético';
+            
+            // Cambiar título de la página y header principal
+            document.title = 'My Movies Collection';
+            document.getElementById('mainHeader').textContent = '🎬 My Movies Collection 🎬';
         } else {
             // VISTA PRINCIPAL: Mostrar formulario y lista alfabética
             document.getElementById('formContainer').style.display = 'block';
             this.isAlphaView = true;
             document.getElementById('moviesTitle').textContent = 'Películas en Orden Alfabético';
             document.getElementById('sortAlphabetical').textContent = '🎬 Ver Vista de Colección';
+            
+            // Asegurar títulos correctos para vista principal
+            document.title = 'My Movies Diaries';
+            document.getElementById('mainHeader').textContent = '🎬 My Movies Diaries 🎬';
         }
 
         this.setupEventListeners();
