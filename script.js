@@ -466,7 +466,12 @@ class MovieManager {
             return;
         }
 
-        if (filteredMovies.length === 0) {
+        // CORRECCIÓN: Ordenar también en vista de colección
+        const sortedMovies = [...filteredMovies].sort((a, b) => 
+            a.title.localeCompare(b.title, 'es', { sensitivity: 'base' })
+        );
+
+        if (sortedMovies.length === 0) {
             moviesList.innerHTML = `
                 <div class="loading" style="grid-column: 1 / -1;">
                     <p>${searchTerm ? 'No se encontraron películas que coincidan con tu búsqueda.' : 'No hay películas en tu colección. ¡Agrega la primera!'}</p>
@@ -475,7 +480,7 @@ class MovieManager {
             return;
         }
 
-        moviesList.innerHTML = filteredMovies.map(movie => {
+        moviesList.innerHTML = sortedMovies.map(movie => {
             // Obtener código ISO del país basado en el nombre
             const countryIso = obtenerISOPais(movie.country);
             const flagUrl = countryIso ? `https://flagcdn.com/w20/${countryIso.toLowerCase()}.png` : '';
